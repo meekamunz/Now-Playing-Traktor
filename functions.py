@@ -42,7 +42,7 @@ def guiInstaller(file):
     # switch focus to the app
     # need threading?
     # split the path/file to get the filename
-    name = file.split('/')[-1]
+    name = file.split('\\')[-1]
     focus(name)
     print(f'{file} installed.')
 
@@ -52,4 +52,5 @@ def focus(windowName):
     search = re.compile(windowName+'.')
     match = [string for string in titles if re.match(search, string)]
     window = gw.getWindowsWithTitle(match[0])[0]
+    # pygetwindow activate the handle is invalid
     window.restore()
