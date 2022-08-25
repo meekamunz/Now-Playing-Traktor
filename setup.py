@@ -1,6 +1,6 @@
 from ast import Try
 from icecast import getIcecast
-from functions import wait, makeDir, guiInstaller
+from functions import wait, makeDir, guiInstaller, focus
 import tkinter as tk
 from tkinter.filedialog import askdirectory
 import os
@@ -10,6 +10,11 @@ root=tk.Tk()
 root.withdraw()
 
 if __name__ == '__main__':
+    # pyinstaller --onefile or tk.root causes focus to shift from active window
+    focus('setup')
+
+    # get admin privileges
+
 
     # not sure, maybe force a location?
     # define a temp location

@@ -38,21 +38,35 @@ def makeDir(path):
 # run a GUI based installer (file) for the user to install
 def guiInstaller(file):
     print(f'Installing {file}, please follow on screen instructions...')
-    subprocess.run([file], shell=True)
-    # switch focus to the app
-    # need threading?
-    # no! Use subprocess.Popen instead
+    subprocess.Popen([file], shell=True)
+
     # split the path/file to get the filename
     name = file.split('\\')[-1]
-    focus(name)
+    
     print(f'{file} installed.')
 
 # switch Windows focus
 def focus(windowName):
     titles = gw.getAllTitles()
-    search = re.compile(windowName+'.')
+    search = re.compile('.*'+windowName+'.*')
     match = [string for string in titles if re.match(search, string)]
     window = gw.getWindowsWithTitle(match[0])[0]
     # pygetwindow activate the handle is invalid
     window.minimize()
     window.restore()
+
+# get admin privileges
+def checkAdmin():
+    if os.name == 'nt':
+        try:
+            # only windows users with admin privileges can read the C:\windows\temp
+            temp = os.listdir(os.sep.join([os.environ.get('SystemRoot','C:\\windows'),'temp']))
+        except:
+            return (os.environ['USERNAME'],False)
+        else:
+            return (os.environ['USERNAME'],True)
+    else:
+        if 'SUDO_USER' in os.environ and os.geteuid() == 0:
+            return (os.environ['SUDO_USER'],True)
+        else:
+            return (os.environ['USERNAME'],False)
