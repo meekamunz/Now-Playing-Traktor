@@ -54,4 +54,5 @@ def focus(windowName):
     match = [string for string in titles if re.match(search, string)]
     window = gw.getWindowsWithTitle(match[0])[0]
     # pygetwindow activate the handle is invalid
+    window.minimize()
     window.restore()
