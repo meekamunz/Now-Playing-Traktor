@@ -1,5 +1,5 @@
 import msvcrt as m
-import os, requests, subprocess, re
+import os, requests, subprocess, re, ctypes, enum, sys
 import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
@@ -38,11 +38,9 @@ def makeDir(path):
 # run a GUI based installer (file) for the user to install
 def guiInstaller(file):
     print(f'Installing {file}, please follow on screen instructions...')
-    subprocess.Popen([file], shell=True)
-
-    # split the path/file to get the filename
-    name = file.split('\\')[-1]
-    
+    # subprocess.Popen or subprocess.run???
+    # use subprocess.run in this instance as we want to wait for application to install
+    subprocess.run([file], shell=True)
     print(f'{file} installed.')
 
 # switch Windows focus
@@ -55,18 +53,45 @@ def focus(windowName):
     window.minimize()
     window.restore()
 
-# get admin privileges
-def checkAdmin():
-    if os.name == 'nt':
-        try:
-            # only windows users with admin privileges can read the C:\windows\temp
-            temp = os.listdir(os.sep.join([os.environ.get('SystemRoot','C:\\windows'),'temp']))
-        except:
-            return (os.environ['USERNAME'],False)
-        else:
-            return (os.environ['USERNAME'],True)
+# bootstrap for admin privileges
+class SW(enum.IntEnum):
+
+    HIDE = 0
+    MAXIMIZE = 3
+    MINIMIZE = 6
+    RESTORE = 9
+    SHOW = 5
+    SHOWDEFAULT = 10
+    SHOWMAXIMIZED = 3
+    SHOWMINIMIZED = 2
+    SHOWMINNOACTIVE = 7
+    SHOWNA = 8
+    SHOWNOACTIVATE = 4
+    SHOWNORMAL = 1
+
+
+class ERROR(enum.IntEnum):
+
+    ZERO = 0
+    FILE_NOT_FOUND = 2
+    PATH_NOT_FOUND = 3
+    BAD_FORMAT = 11
+    ACCESS_DENIED = 5
+    ASSOC_INCOMPLETE = 27
+    DDE_BUSY = 30
+    DDE_FAIL = 29
+    DDE_TIMEOUT = 28
+    DLL_NOT_FOUND = 32
+    NO_ASSOC = 31
+    OOM = 8
+    SHARE = 26
+
+def bootstrap():
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        return True
     else:
-        if 'SUDO_USER' in os.environ and os.geteuid() == 0:
-            return (os.environ['SUDO_USER'],True)
-        else:
-            return (os.environ['USERNAME'],False)
+        hinstance = ctypes.windll.shell32.ShellExecuteW(
+            None, 'runas', sys.executable, sys.argv[0], None, SW.SHOWNORMAL
+        )
+        if hinstance <= 32:
+            raise RuntimeError(ERROR(hinstance))

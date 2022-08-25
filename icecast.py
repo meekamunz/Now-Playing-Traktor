@@ -1,6 +1,6 @@
 from urllib.request import urlretrieve
-from functions import remoteFileList, wait, sleep, makeDir
-import os, subprocess
+from functions import remoteFileList, wait, sleep, makeDir, focus
+import os
 
 def getIcecast(location):
     # create a sub folder to location
@@ -9,6 +9,7 @@ def getIcecast(location):
     
     # get list of versions of Icecast and sort
     print('Getting Icecast versions...')
+    print()
     url = 'https://downloads.xiph.org/releases/icecast'
     ext = 'exe'
     icecastVersions = []
@@ -38,6 +39,10 @@ def getIcecast(location):
                 i=i+1
             print()
             
+            # pyinstaller --onefile or tk.root causes focus to shift from active window
+            focus('EscapePodToolkit')
+
+            # select icecast version
             icecastChoice = int(input('Choose Icecast Version: '))
             if 0 < icecastChoice <= len(versions):
                 print('Downloading '+str(versions[icecastChoice-1])+'...')
@@ -51,7 +56,7 @@ def getIcecast(location):
                 print ('Invalid selection.  Please use a number in the list.')
                 sleep(1)
                 pass
-            #
+
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
             print ('Invalid selection.  Please use a number in the list.')

@@ -1,6 +1,7 @@
 from ast import Try
 from icecast import getIcecast
-from functions import wait, makeDir, guiInstaller, focus
+from nssm import getNssm, installNssm, nssmService
+from functions import wait, makeDir, guiInstaller, focus, bootstrap
 import tkinter as tk
 from tkinter.filedialog import askdirectory
 import os
@@ -9,18 +10,13 @@ import os
 root=tk.Tk()
 root.withdraw()
 
-if __name__ == '__main__':
-    # pyinstaller --onefile or tk.root causes focus to shift from active window
-    focus('setup')
-
-    # get admin privileges
-
-
+# main code
+def main():
     # not sure, maybe force a location?
     # define a temp location
     #print('Set an empty temporary directory...')
     #tempLocation = askdirectory()
-
+    
     # Forced location
     print('Creating \'Escape Pod Toolkit\'...')
     path = os.path.expandvars('%userprofile%\Documents\Escape Pod Toolkit')
@@ -28,11 +24,18 @@ if __name__ == '__main__':
     
     # download icecast
     icecast = getIcecast(path)
-    # need to install ICECAST
+    # install ICECAST
     guiInstaller(icecast)
-
+    
     # need to configure ICECAST
-    # need to install nssm-2.24
+
+    # download nssm-2.24
+    nssm = getNssm(path)
+    # install nssm-2.24
+    installNssm(nssm)
+    # setup Icecast as a service using nssm
+    nssmService(path, 'Icecast')
+
     # need to tell user to set Traktor settings for either local or remote streaming
     # need to tell user to start Traktor streaming
     # need to install AMIP
@@ -45,3 +48,37 @@ if __name__ == '__main__':
         # set CFG_SEXIT=""
         # CFG_UPDATEFILE=1
     # create last ten tracks file
+
+if __name__ == '__main__':
+    # get admin privileges
+    if bootstrap() == True: main()
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
