@@ -41,6 +41,7 @@ def guiInstaller(file):
     subprocess.run([file], shell=True)
     # switch focus to the app
     # need threading?
+    # no! Use subprocess.Popen instead
     # split the path/file to get the filename
     name = file.split('\\')[-1]
     focus(name)
