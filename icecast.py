@@ -1,6 +1,6 @@
-from urllib.request import urlretrieve
+from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os
+import os, ssl
 
 def getIcecast(location):
     # create a sub folder to location
@@ -17,7 +17,7 @@ def getIcecast(location):
     for file in remoteFileList(url, ext):
         icecastVersions.append(file)
     icecastVersions.sort(reverse=True)
-
+    
     # split each entry to just show the filename
     i=0
     versions=[]
@@ -27,7 +27,7 @@ def getIcecast(location):
             versions.append(icecastVersions[i].split('/')[-1])
         else: splitLoop = False
         i=i+1
-
+        
     # list of versions is just the file name, not the full link
     versionLoop = True
     while versionLoop:
@@ -41,7 +41,7 @@ def getIcecast(location):
             
             # pyinstaller --onefile or tk.root causes focus to shift from active window
             focus('EscapePodToolkit')
-
+            
             # select icecast version
             icecastChoice = int(input('Choose Icecast Version: '))
             if 0 < icecastChoice <= len(versions):
@@ -49,6 +49,8 @@ def getIcecast(location):
                 
                 # set target file+directory
                 target = os.path.join(path, versions[icecastChoice-1])
+                # get around SSL failures
+                ssl._create_default_https_context = ssl._create_unverified_context
                 # use icecastVersions for full link
                 urlretrieve(icecastVersions[icecastChoice-1], target)
                 versionLoop = False
@@ -56,12 +58,12 @@ def getIcecast(location):
                 print ('Invalid selection.  Please use a number in the list.')
                 sleep(1)
                 pass
-
+            
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
             print ('Invalid selection.  Please use a number in the list.')
             sleep(1)
-
+            
     print('Complete.')
     return target
 

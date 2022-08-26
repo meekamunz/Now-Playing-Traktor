@@ -28,13 +28,13 @@ def remoteFileList(url, ext=''):
     return [url + '/' + node.get('href') for node in soup.find_all('a') if node.get('href').endswith(ext)]
 
 def makeDir(path):
-        try:
-            os.mkdir(path)
-            message = (path+' created.')
-            return message
-        except OSError:
-            message = (path+' already exists.')
-            return message
+    try:
+        os.mkdir(path)
+        message = (path+' created.')
+        return message
+    except OSError:
+        message = (path+' already exists.')
+        return message
 
 # run a GUI based installer (file) for the user to install
 def guiInstaller(file):
@@ -46,13 +46,14 @@ def guiInstaller(file):
 
 # switch Windows focus
 def focus(windowName):
-    titles = gw.getAllTitles()
-    search = re.compile('.*'+windowName+'.*')
-    match = [string for string in titles if re.match(search, string)]
-    window = gw.getWindowsWithTitle(match[0])[0]
-    # pygetwindow activate the handle is invalid
-    window.minimize()
-    window.restore()
+    pass
+    #titles = gw.getAllTitles()
+    #search = re.compile('.*'+windowName+'.*')
+    #match = [string for string in titles if re.match(search, string)]
+    #window = gw.getWindowsWithTitle(match[0])[0]
+    ## pygetwindow activate the handle is invalid
+    #window.minimize()
+    #window.restore()
 
 # bootstrap for admin privileges
 class SW(enum.IntEnum):

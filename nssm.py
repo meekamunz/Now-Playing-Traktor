@@ -35,5 +35,5 @@ def nssmService(location, service):
     workingDir=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\'
     cwd=os.getcwd()
     os.chdir(workingDir)
-    subprocess.run(['nssm install '+service])
+    subprocess.run(['nssm install '+service], shell=True)
     os.chdir(cwd)
