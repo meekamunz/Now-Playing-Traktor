@@ -46,14 +46,13 @@ def guiInstaller(file):
 
 # switch Windows focus
 def focus(windowName):
-    pass
-    #titles = gw.getAllTitles()
-    #search = re.compile('.*'+windowName+'.*')
-    #match = [string for string in titles if re.match(search, string)]
-    #window = gw.getWindowsWithTitle(match[0])[0]
-    ## pygetwindow activate the handle is invalid
-    #window.minimize()
-    #window.restore()
+    titles = gw.getAllTitles()
+    search = re.compile('.*'+windowName+'.*')
+    match = [string for string in titles if re.match(search, string)]
+    window = gw.getWindowsWithTitle(match[0])[0]
+    # pygetwindow activate the handle is invalid
+    window.minimize()
+    window.restore()
 
 # bootstrap for admin privileges
 class SW(enum.IntEnum):

@@ -1,6 +1,6 @@
 from urllib.request import urlretrieve
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os, zipfile, subprocess
+import os, zipfile
 
 # get NSSM
 def getNssm(location):
@@ -35,5 +35,15 @@ def nssmService(location, service):
     workingDir=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\'
     cwd=os.getcwd()
     os.chdir(workingDir)
-    subprocess.run(['nssm install '+service], shell=True)
+    try:
+        # in case of previous install
+        os.popen('nssm stop Icecast')
+        os.popen('nssm remove Icecast')
+    except Exception as e:
+        print('No Existing service.')
+    os.popen('nssm install '+service+' C:\\Program Files (x86)\\Icecast\\icecast.nat')
+    #test
+    os.popen('nssm start Icecast')
+    wait()
+    os.popen('nssm stop Icecast')
     os.chdir(cwd)
