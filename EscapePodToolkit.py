@@ -1,10 +1,10 @@
 from ast import Try
 from icecast import getIcecast
 from nssm import getNssm, installNssm, nssmService
-from functions import wait, makeDir, guiInstaller, focus, bootstrap
+from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear
 import tkinter as tk
 from tkinter.filedialog import askdirectory
-import os
+import os, sys
 
 # hide the tk root window
 root=tk.Tk()
@@ -12,6 +12,43 @@ root.withdraw()
 
 # main code
 def main():
+    focus('EscapePodToolkit')
+    menuTitle = 'Main Menu'
+    titleName = '| Escape Pod Toolkit |'
+    title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
+    menuLoop = True
+    while menuLoop:
+        try:
+            clear()
+            print(title)
+            print()
+            print(menuTitle)
+            print()
+            print(' [1] Setup Escape Pod Toolkit')
+            print(' [2] Operate Escape Pod Toolkit')
+            print(' [.]')
+            print(' [0] Exit Escape Pod Toolkit')
+            print()
+
+            mainMenuSelect = int(input('Select an option: '))
+            if mainMenuSelect == 1:
+                setup(menuTitle)
+
+            elif mainMenuSelect == 2:
+                pass
+
+            elif mainMenuSelect == 0:
+                clear()
+                sys.exit()
+
+        except (IndexError, ValueError) as e: # input error handling, can print(e) if required
+            print()
+            print ('Invalid selection.  Please use a number in the list.')
+            print('Type [0] to exit')
+            print()
+            sleep(1)
+# initial setup
+def setup(prevMenu):
     # not sure, maybe force a location?
     # define a temp location
     #print('Set an empty temporary directory...')

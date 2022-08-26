@@ -5,4 +5,4 @@ rmdir /s /q build
 rmdir /s /q dist
 del *.spec
 
-pyinstaller --onefile --name=EscapePodToolkit --icon=icon.ico setup.py
+pyinstaller --onefile --name=EscapePodToolkit --icon=icon.ico EscapePodToolKit.py
