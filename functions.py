@@ -41,8 +41,11 @@ def guiInstaller(file):
     print(f'Installing {file}, please follow on screen instructions...')
     # subprocess.Popen or subprocess.run???
     # use subprocess.run in this instance as we want to wait for application to install
-    subprocess.run([file], shell=True)
-    print(f'{file} installed.')
+    p = subprocess.run([file], shell=True)
+    if p.returncode != 0:
+        print(f'Error installing {file}...')
+        wait()
+    else: print(f'{file} installed.')
 
 # switch Windows focus
 def focus(windowName):

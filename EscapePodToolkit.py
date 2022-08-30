@@ -1,7 +1,9 @@
 from ast import Try
 from icecast import getIcecast
 from nssm import getNssm, installNssm, nssmService
+from winamp import getWinamp
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear
+from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp
 import tkinter as tk
 from tkinter.filedialog import askdirectory
 import os, sys
@@ -10,8 +12,12 @@ import os, sys
 root=tk.Tk()
 root.withdraw()
 
+# global variables
+path = os.path.expandvars('%userprofile%\\Documents\\Escape Pod Toolkit')
+
 # main code
 def main():
+    global path
     focus('EscapePodToolkit')
     menuTitle = 'Main Menu'
     titleName = '| Escape Pod Toolkit |'
@@ -43,7 +49,15 @@ def main():
             
             elif mainMenuSelect == 3:
                 # remove services & apps
-                pass
+                if removeIcecast(path) == True:
+                    if removeNssm(path) == True:
+                        if removeWinamp(path) == True:
+                            if cleanupEPTroot(path) == True:
+                                wait()
+                            else: print('folder clean-up error.')
+                        else: print('Winamp clean-up error.')
+                    else: print('NSSM clean-up error.')
+                else: print('Icecast clean-up error.')
             
             elif mainMenuSelect == 0:
                 clear()
@@ -58,6 +72,7 @@ def main():
 
 # initial setup
 def setup(prevMenu):
+    global path
     # not sure, maybe force a location?
     # define a temp location
     #print('Set an empty temporary directory...')
@@ -65,7 +80,6 @@ def setup(prevMenu):
     
     # Forced location
     print('Creating \'Escape Pod Toolkit\'...')
-    path = os.path.expandvars('%userprofile%\Documents\Escape Pod Toolkit')
     makeDir(path)
     
     # download icecast
@@ -81,7 +95,11 @@ def setup(prevMenu):
     installNssm(nssm)
     # setup Icecast as a service using nssm
     nssmService(path, 'Icecast')
-    
+
+    # need to get winamp
+    winamp = getWinamp(path)
+    # need to install winamp
+    guiInstaller(winamp)
     # need to tell user to set Traktor settings for either local or remote streaming
     # need to tell user to start Traktor streaming
     # need to install AMIP

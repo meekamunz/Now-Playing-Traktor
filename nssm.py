@@ -35,15 +35,27 @@ def nssmService(location, service):
     workingDir=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\'
     cwd=os.getcwd()
     os.chdir(workingDir)
-    try:
-        # in case of previous install
-        os.popen('nssm stop Icecast')
-        os.popen('nssm remove Icecast')
-    except Exception as e:
-        print('No Existing service.')
-    os.popen('nssm install '+service+' C:\\Program Files (x86)\\Icecast\\icecast.nat')
+    nssmServiceRemove(location, service)
+    os.popen('nssm install '+service+' C:\\Program Files (x86)\\Icecast\\icecast.bat')
     #test
     os.popen('nssm start Icecast')
     wait()
     os.popen('nssm stop Icecast')
+    os.chdir(cwd)
+
+# NSSM Service remover
+def nssmServiceRemove(location, service):
+    workingDir=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\'
+    cwd=os.getcwd()
+    os.chdir(workingDir)
+    try:
+        # in case of previous install
+        print('Stopping '+service+'...')
+        if os.popen('nssm stop '+service) != 'Can\'t open service!':
+            print(service+' stopped.  Removing '+service+'...')
+            os.popen('nssm remove '+service)
+            print(service+' removed.')
+    except Exception as e:
+        print('No Existing service.')
+    wait()
     os.chdir(cwd)
