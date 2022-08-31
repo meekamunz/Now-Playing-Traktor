@@ -1,8 +1,7 @@
-from ast import Try
-from icecast import getIcecast
+from icecast import getIcecast, icecastXml
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp
-from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear
+from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp
 import tkinter as tk
 from tkinter.filedialog import askdirectory
@@ -88,7 +87,8 @@ def setup(prevMenu):
     guiInstaller(icecast)
     
     # need to configure ICECAST
-    
+    icecastXML(djName())
+
     # download nssm-2.24
     nssm = getNssm(path)
     # install nssm-2.24

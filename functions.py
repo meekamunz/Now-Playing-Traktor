@@ -4,11 +4,28 @@ import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
 
-#clear screen
+# DJ Name
+def djName():
+    djLoop = True
+    while djLoop:
+        try:
+            illegalChars = [' ', ',', ';', ':', '@', '"', '!', '£', '$', '%', '^', '&', '*', '(', ')', '?', '/', '\\', '|', '`', '\'', '#', '~', '[', ']', '{', '}', '_', '+', '=', '¬']
+            djName = input('Enter DJ Name: ')
+            if any(e in djName for e in illegalChars) == False:
+                return djName
+            else:
+                print('Illegal characters in DJ Name.')
+                illegalDj = [e for e in illegalChars if e in djName]
+                iDj = ' '.join(illegalDj)
+                print(f'{djName} contains: {iDj}')
+        except Exception as e:
+            pass
+
+# clear screen
 def clear():
     os.system('cls')
 
-#wait for key press
+# wait for key press
 def wait():
     print('Press any key to continue...')
     m.getch()
