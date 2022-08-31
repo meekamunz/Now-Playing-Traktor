@@ -87,7 +87,7 @@ def setup(prevMenu):
     guiInstaller(icecast)
     
     # need to configure ICECAST
-    icecastXML(djName())
+    icecastXml(djName())
 
     # download nssm-2.24
     nssm = getNssm(path)
