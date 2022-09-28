@@ -44,3 +44,23 @@ def removeWinamp(location):
     os.system('rmdir /S /Q "{}"'.format(dir))
     print('Winamp folders removed.')
     return True
+
+# remove amip program
+def removeAmip(location):
+    dir = 'C:\\Program Files (x86)\\Winamp\\Plugins\\'
+    print('Uninstalling AMIP...')
+    p = subprocess.run([dir+'un_configurator.exe'])
+    if p.returncode != 0:
+        print('Error uninstalling AMIP...')
+        wait()
+        print('Attempting alternate uninstall path...')
+        q = subprocess.run([dir+'amip_uninstall.exe'])
+        if q.returncode != 0:
+            print('Alternate uninstaller failed.  Aborting AMIP uninstall.')
+            wait()
+    else: print('AMIP uninstalled.')
+    print('Removing AMIP folders...')
+    os.system('rmdir /S /Q "{}"'.format(location+'\\AMIP'))
+    os.system('rmdir /S /Q "{}"'.format(dir))
+    print('AMIP folders removed.')
+    return True

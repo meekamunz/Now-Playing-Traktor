@@ -1,8 +1,9 @@
 from icecast import getIcecast, icecastXml
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp
+from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName
-from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp
+from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 import tkinter as tk
 from tkinter.filedialog import askdirectory
 import os, sys
@@ -51,9 +52,11 @@ def main():
                 if removeIcecast(path) == True:
                     if removeNssm(path) == True:
                         if removeWinamp(path) == True:
-                            if cleanupEPTroot(path) == True:
-                                wait()
-                            else: print('folder clean-up error.')
+                            if removeAmip(path) == True:
+                                if cleanupEPTroot(path) == True:
+                                    wait()
+                                else: print('folder clean-up error.')
+                            else: print('AMIP clean-up error.')
                         else: print('Winamp clean-up error.')
                     else: print('NSSM clean-up error.')
                 else: print('Icecast clean-up error.')
@@ -80,6 +83,7 @@ def setup(prevMenu):
     # Forced location
     print('Creating \'Escape Pod Toolkit\'...')
     makeDir(path)
+    makeDir(path+'\\Streaming Data')
     
     # download icecast
     icecast = getIcecast(path)
@@ -100,17 +104,15 @@ def setup(prevMenu):
     winamp = getWinamp(path)
     # need to install winamp
     guiInstaller(winamp)
+
+    # do AMIP stuff
+    amip = getAmip(path)
+    installAmip(amip)
+    amipConfig(path+'\\Streaming Data')
+
     # need to tell user to set Traktor settings for either local or remote streaming
     # need to tell user to start Traktor streaming
-    # need to install AMIP
-    # need to configure AMIP (use C:\Program Files (x86)\Winamp\Plugins\plugin.ini)
-        # set CFG_SFILE="C:\A\LOCATION\now_playing.txt"
-        # set CFG_IGNORE="(Connecting\.\.\.)|(Prebuffering :)"
-        # set CFG_SPLAY="%name"
-        # set CFG_SPAUSE="ERROR 1"
-        # set CFG_SSTOP="ERROR 2"
-        # set CFG_SEXIT=""
-        # CFG_UPDATEFILE=1
+
     # create last ten tracks file
 
 if __name__ == '__main__':
