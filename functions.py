@@ -9,7 +9,7 @@ def djName():
     djLoop = True
     while djLoop:
         try:
-            illegalChars = [' ', ',', ';', ':', '@', '"', '!', '£', '$', '%', '^', '&', '*', '(', ')', '?', '/', '\\', '|', '`', '\'', '#', '~', '[', ']', '{', '}', '_', '+', '=', '¬']
+            illegalChars = [' ', ',', ';', ':', '@', '"', '!', '$', '%', '^', '&', '*', '(', ')', '?', '/', '\\', '|', '`', '\'', '#', '~', '[', ']', '{', '}', '_', '+', '=']
             djName = input('Enter DJ Name: ')
             if any(e in djName for e in illegalChars) == False:
                 return djName
@@ -18,6 +18,10 @@ def djName():
                 illegalDj = [e for e in illegalChars if e in djName]
                 iDj = ' '.join(illegalDj)
                 print(f'{djName} contains: {iDj}')
+                print('Replacing illegal characters...')
+                for chars in illegalChars:
+                    djName = djName.replace(chars, '.')
+                return djName
         except Exception as e:
             pass
 
