@@ -8,8 +8,8 @@ def getWinamp(location):
     path = os.path.join(location, 'Winamp')
     makeDir(path)
     
-    url = 'https://download.nullsoft.com/winamp/client/Winamp59_9999_rc4_full_en-us.exe'
-    target = os.path.join(path, 'Winamp59_9999_rc4_full_en-us.exe')
+    url = 'https://download.winamp.com/winamp/winamp_latest_full.exe'
+    target = os.path.join(path, 'winamp_latest_full.exe')
 
     print('Downloading Winamp...')
     urlretrieve(url, target)

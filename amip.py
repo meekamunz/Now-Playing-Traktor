@@ -31,7 +31,7 @@ def installAmip(amipZip):
 # amip file configurator
 def amipConfig(location):
     # open the plugin.ini
-    with open ('C:\Program Files (x86)Winamp\Plugins\plugin.ini', 'r') as file:
+    with open ('C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'r') as file:
         filedata = file.read()
 
     # Replace target parts
@@ -43,5 +43,5 @@ def amipConfig(location):
     filedata = filedata.replace('CFG_SFILE=""', 'CFG_SFILE="'+location+'"')
 
     # Write over the plugin.ini with new data
-    with open('C:\Program Files (x86)Winamp\Plugins\plugin.ini', 'w') as file:
+    with open('C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'w') as file:
         file.write(filedata)

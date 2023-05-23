@@ -15,7 +15,8 @@ def getIcecast(location):
     icecastVersions = []
     
     for file in remoteFileList(url, ext):
-        icecastVersions.append(file)
+        if 'icecast2_' not in file:
+            icecastVersions.append(file)
     icecastVersions.sort(reverse=True)
     
     # split each entry to just show the filename
@@ -83,7 +84,7 @@ def icecastXml(djName):
     # Write over the XML with new data
     with open('C:\Program Files (x86)\Icecast\icecast.xml', 'w') as file:
         file.write(filedata)
-
+        
 
 # '<source-password>hackme</source-password>', '<source-password>escapepod</source-password>'
 # '<relay-password>hackme</relay-password>', '<relay-password>escapepod</relay-password>'

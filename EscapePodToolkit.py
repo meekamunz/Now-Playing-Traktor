@@ -110,10 +110,11 @@ def setup(prevMenu):
     installAmip(amip)
     amipConfig(path+'\\Streaming Data')
 
+    #TODO
     # need to tell user to set Traktor settings for either local or remote streaming
     # need to tell user to start Traktor streaming
 
-    # create last ten tracks file
+    # create last ten tracks file - the trackname tool should be built in, and should create the files it needs during operation, and clean up at end of operation.
 
 if __name__ == '__main__':
     # get admin privileges
