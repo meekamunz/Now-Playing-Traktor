@@ -112,6 +112,21 @@ def setup(prevMenu):
 
     #TODO
     # need to tell user to set Traktor settings for either local or remote streaming
+    # traktor settings
+    # location=%userprofile%\\Documents\\Native Instruments\\Traktor <version_number>
+    # sometimes Windows is a cunt; the Documents folder might be under a OneDrive location
+    # Traktor Settings.tsi
+    # set these:
+    # <Entry Name="Broadcast.IcecastMetadata.Name" Type="3" Value="mike13000 - The Escape Pod"></Entry>
+    # <Entry Name="Broadcast.IcecastServer.Address" Type="3" Value="192.168.1.180"></Entry>
+    # <Entry Name="Broadcast.IcecastServer.Bitrate" Type="1" Value="192000"></Entry>
+    # <Entry Name="Broadcast.IcecastServer.MountPath" Type="3" Value="mike13000.ogg"></Entry>
+    # <Entry Name="Broadcast.IcecastServer.Password" Type="3" Value="Dookie99"></Entry>
+    # <Entry Name="Broadcast.IcecastServer.Port" Type="1" Value="8000"></Entry>
+    # <Entry Name="Broadcast.IcecastServer.Samplerate" Type="1" Value="44100"></Entry>
+
+
+
     # need to tell user to start Traktor streaming
 
     # create last ten tracks file - the trackname tool should be built in, and should create the files it needs during operation, and clean up at end of operation.

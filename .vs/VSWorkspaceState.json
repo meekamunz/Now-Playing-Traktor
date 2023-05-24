@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\dist"
   ],
-  "SelectedNode": "\\functions.py",
+  "SelectedNode": "\\EscapePodToolkit.py",
   "PreviewInSolutionExplorer": false
 }
