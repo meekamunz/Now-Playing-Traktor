@@ -5,6 +5,7 @@ from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 import tkinter as tk
+from time import sleep
 from tkinter.filedialog import askdirectory
 import os, sys
 
@@ -111,21 +112,7 @@ def setup(prevMenu):
     amipConfig(path+'\\Streaming Data')
 
     #TODO
-    # need to tell user to set Traktor settings for either local or remote streaming
-    # traktor settings
-    # location=%userprofile%\\Documents\\Native Instruments\\Traktor <version_number>
-    # sometimes Windows is a cunt; the Documents folder might be under a OneDrive location
-    # Traktor Settings.tsi
-    # set these:
-    # <Entry Name="Broadcast.IcecastMetadata.Name" Type="3" Value="mike13000 - The Escape Pod"></Entry>
-    # <Entry Name="Broadcast.IcecastServer.Address" Type="3" Value="192.168.1.180"></Entry>
-    # <Entry Name="Broadcast.IcecastServer.Bitrate" Type="1" Value="192000"></Entry>
-    # <Entry Name="Broadcast.IcecastServer.MountPath" Type="3" Value="mike13000.ogg"></Entry>
-    # <Entry Name="Broadcast.IcecastServer.Password" Type="3" Value="Dookie99"></Entry>
-    # <Entry Name="Broadcast.IcecastServer.Port" Type="1" Value="8000"></Entry>
-    # <Entry Name="Broadcast.IcecastServer.Samplerate" Type="1" Value="44100"></Entry>
-
-
+    # currently working on Traktor Settings
 
     # need to tell user to start Traktor streaming
 

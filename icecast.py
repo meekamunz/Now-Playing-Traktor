@@ -2,6 +2,7 @@ from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus
 import os, ssl
 
+# getIcecast
 def getIcecast(location):
     # create a sub folder to location
     path = os.path.join(location, 'Icecast')

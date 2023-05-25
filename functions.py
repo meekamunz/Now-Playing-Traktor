@@ -4,6 +4,37 @@ import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
 
+# yesNo question
+def yesNo(question, default='yes'):
+    # Ask a yes/no question via raw_input() and return their answer.
+    # 'question' is a string that is presented to the user.
+    # 'default' is the presumed answer if the user just hits <Enter>.
+    #    It must be 'yes' (the default), 'no' or None (meaning
+    #    an answer is required of the user).
+    # The "answer" return value is True for 'yes' or False for 'no'.
+    
+    valid = {'yes': True, 'y': True, 'ye': True,
+             'no': False, 'n': False}
+    if default is None:
+        prompt = ' [y/n] '
+    elif default == 'yes':
+        prompt = ' [Y/n] '
+    elif default == 'no':
+        prompt = ' [y/N] '
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+    
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "
+                             "(or 'y' or 'n')")
+
 # DJ Name
 def djName():
     djLoop = True
@@ -48,6 +79,7 @@ def remoteFileList(url, ext=''):
     soup = BeautifulSoup(page, 'html.parser')
     return [url + '/' + node.get('href') for node in soup.find_all('a') if node.get('href').endswith(ext)]
 
+# make a directory
 def makeDir(path):
     try:
         os.mkdir(path)
