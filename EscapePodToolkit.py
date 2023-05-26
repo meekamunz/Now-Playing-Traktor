@@ -92,7 +92,7 @@ def setup(prevMenu):
     guiInstaller(icecast)
     
     # need to configure ICECAST
-    icecastXml(djName())
+    icecastPassword=icecastXml(djName())
 
     # download nssm-2.24
     nssm = getNssm(path)
@@ -110,6 +110,12 @@ def setup(prevMenu):
     amip = getAmip(path)
     installAmip(amip)
     amipConfig(path+'\\Streaming Data')
+
+    # Traktor Settings
+    # Traktor installation path
+    #
+    # Traktor Settings (use icecastPassword)
+    #TraktorSettings(path, djName, icecastIP, icecastPassword)
 
     #TODO
     # currently working on Traktor Settings
