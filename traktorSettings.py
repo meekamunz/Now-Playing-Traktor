@@ -1,4 +1,4 @@
-from functions import yesNo
+from functions import yesNo, open_file_dialog
 import re, tempfile, os
 
 
@@ -18,8 +18,32 @@ def traktorMachine():
     else: location = 'remote'
     return location
 
+# check TSI file
+def check_tsi_file(file_path):
+    with open(file_path, 'r') as file:
+        for line in file:
+            if '<TraktorSettings>' in line:
+                return True
+    return False
 
+# remote TSI
+def remoteTSI(djName, icecastIP, icecastPassword):
+    # not yet done!!
+    return False, 'INFORMATION: Feature incomplete, refer to instructions below:'
 
+# local option
+def localTSI(djName, icecastIP, icecastPassword):
+    file_types = [("Traktor Settings files", "*.tsi"), ("All files", "*.*")]
+    tsiFile=open_file_dialog(file_types, "Select your Traktor Settings file...")
+    if tsiFile:
+        # is this a Traktor TSI file?
+        ok_to_update = check_tsi_file(tsiFile)
+        if ok_to_update:
+            # got the file and it is a Traktor TSI file, now update the file
+            TraktorSettings(tsiFile, djName, icecastIP, icecastPassword)
+            return True, 'Traktor settings complete.'
+        else: return False, 'ERROR: This is not a Traktor Settings file!'
+    else: return False, 'ERROR: No TSI file found.'
 
 # testpath
 testpath='C:\\Users\\meeka\\Documents\\temp\\Traktor Settings.tsi'
@@ -27,7 +51,7 @@ testpath='C:\\Users\\meeka\\Documents\\temp\\Traktor Settings.tsi'
 def TraktorSettings(traktorSettingsFile, djName, icecastIP, icecastPassword):
     # create a tempfile
     tempPath = tempfile.gettempdir()
-    with open(f'{tempPath}\Traktor Settings.tsi', 'w', encoding="utf-8'") as newfile:
+    with open(f'{tempPath}\\Traktor Settings.tsi', 'w', encoding="utf-8'") as newfile:
         # Read in the XML
         with open (traktorSettingsFile, 'r') as file:
             # create list of replacement searches (oldData)
@@ -45,15 +69,11 @@ def TraktorSettings(traktorSettingsFile, djName, icecastIP, icecastPassword):
                     if re.compile(oldData[i]).match(line):
                         # replace old data at position i with new data at postion i
                         line=(re.sub(oldData[i], newData[i], line))
+                        print(f'Setting :{newData[i]} in {traktorSettingsFile}...')
                         i=i+1
                 newfile.write(line)
             file.close()
     newfile.close()
-    # remove the old file and replace with the temp
+    # remove the old file and replace with the temp (replace removes from source location, so no need to remove)
     os.replace(tempPath+'\\Traktor Settings.tsi', traktorSettingsFile)
-    # remove the temp file
-    os.remove(newfile)
-
-TraktorSettings(testpath, 'a DJ', '192.168.1.254', 'my_password')
-
-# file permission error
+    print('Finished editing Traktor Settings file.')

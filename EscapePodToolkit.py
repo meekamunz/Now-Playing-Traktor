@@ -2,8 +2,9 @@ from icecast import getIcecast, icecastXml
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp
 from amip import getAmip, installAmip, amipConfig
-from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName
+from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
+from traktorSettings import traktorMachine,  remoteTSI, localTSI
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
@@ -112,13 +113,40 @@ def setup(prevMenu):
     amipConfig(path+'\\Streaming Data')
 
     # Traktor Settings
-    # Traktor installation path
-    #
-    # Traktor Settings (use icecastPassword)
-    #TraktorSettings(path, djName, icecastIP, icecastPassword)
+    # Close Traktor
+
+    # assume icecase is running on local host
+    # select IP address that icecast is running on
+    if get_local_ip_addresses:
+        icecast_ip = prompt_select_ip(get_local_ip_addresses())
+    else:
+        print('ERROR: No local IP addresses found.')
+
+    TSI_data=[icecastPassword[1], icecast_ip, icecastPassword[0]]
+    TSI_updated = False, 'never set'
+    TSI_check = True
+    while TSI_check:
+        if TSI_updated[0] == False:
+            if traktorMachine() == 'local':
+                TSI_updated = localTSI(TSI_data[0], TSI_data[1], TSI_data[2])
+                print(TSI_updated[1])
+            else:
+                TSI_updated = remoteTSI(TSI_data[0], TSI_data[1], TSI_data[2])
+                print(TSI_updated[1])
+                print()
+                print('1. Get your \'Traktor Settings.tsi\' file from the following location on the remote PC:')
+                print()
+                print('   %userprofile%\\Documents\\Native Instruments\\Traktor <version_number>\\')
+                print()
+                print('2. Make a copy of the file locally, just in case I got the code wrong!')
+                print('3. Copy it to this PC.  Make a note of the location you copy it to.')
+                print('4. Choose \'Yes\' when asked if Traktor is installed locally')
+                print('5. Use the file you saved when selecting \'Traktor Settings.tsi\'.')
+                print('6. Once complete, copy the file back to the original PC, replacing the original file.')
+        TSI_check = not TSI_updated[0]
 
     #TODO
-    # currently working on Traktor Settings
+    # close Traktor
 
     # need to tell user to start Traktor streaming
 

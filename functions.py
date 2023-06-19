@@ -3,6 +3,41 @@ import os, requests, subprocess, re, ctypes, enum, sys
 import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
+import tkinter as tk
+from tkinter import filedialog
+import socket
+
+# get local IP address
+def get_local_ip_addresses():
+    ip_addresses = []
+    try:
+        # Get all IP addresses associated with the local machine
+        host_name = socket.gethostname()
+        ip_addresses = socket.getaddrinfo(host_name, None, socket.AF_INET, socket.SOCK_STREAM)
+        ip_addresses = [addr[4][0] for addr in ip_addresses]
+    except Exception as e:
+        print(f'Error getting local IP addresses: {str(e)}')
+    return ip_addresses
+
+# choose IP address from a list called 'ip_addresses'
+def prompt_select_ip(ip_addresses):
+    while True:
+        print("Select an IP address:")
+        for i, ip in enumerate(ip_addresses):
+            print(f"{i + 1}. {ip}")
+        choice = input("Enter the corresponding number: ")
+        if choice.isdigit():
+            index = int(choice) - 1
+            if 0 <= index < len(ip_addresses):
+                return ip_addresses[index]
+        print("Invalid choice. Please try again.\n")
+
+# open a file of type 'fileType'
+def open_file_dialog(file_types, title):
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(filetypes=file_types, title=title)
+    return file_path
 
 # yesNo question
 def yesNo(question, default='yes'):

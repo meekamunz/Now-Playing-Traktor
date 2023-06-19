@@ -88,7 +88,7 @@ def icecastXml(djName):
     # Write over the XML with new data
     with open('C:\Program Files (x86)\Icecast\icecast.xml', 'w') as file:
         file.write(filedata)
-    return icecastPassword
+    return icecastPassword, djName
         
 
 # '<source-password>hackme</source-password>', '<source-password>escapepod</source-password>'
