@@ -1,11 +1,17 @@
 import msvcrt as m
-import os, requests, subprocess, re, ctypes, enum, sys
+import os, requests, subprocess, re, ctypes, enum, sys, socket, psutil
 import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
 import tkinter as tk
 from tkinter import filedialog
-import socket
+
+# check if application (application_name) is running
+def is_application_running(application_name):
+    for process in psutil.process_iter(['name']):
+        if process.info['name'].startswith(application_name):
+            return True
+    return False
 
 # get local IP address
 def get_local_ip_addresses():

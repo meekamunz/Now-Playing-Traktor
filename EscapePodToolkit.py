@@ -2,7 +2,7 @@ from icecast import getIcecast, icecastXml
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp
 from amip import getAmip, installAmip, amipConfig
-from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip
+from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 from traktorSettings import traktorMachine,  remoteTSI, localTSI
 import tkinter as tk
@@ -45,6 +45,7 @@ def main():
                 
             elif mainMenuSelect == 2:
                 # run scripts inc;
+                # get user to start streaming
                 # now-playing,
                 # last-10-tracks
                 pass
@@ -107,13 +108,24 @@ def setup(prevMenu):
     # need to install winamp
     guiInstaller(winamp)
 
+    # need to get CLEveR (CommandLine EVEnt Renderer for WinAmp)
+    # This launches our stream in Winamp
+    clever = getClever(path)
+    # install ??
+
     # do AMIP stuff
     amip = getAmip(path)
     installAmip(amip)
     amipConfig(path+'\\Streaming Data')
 
     # Traktor Settings
-    # Close Traktor
+    # Prompt user to close Traktor
+    traktor_application_check = True
+    while traktor_application_check:
+        if is_application_running('Traktor'): 
+            print('Please close your Traktor application.')
+            wait()
+        else: traktor_application_check = False
 
     # assume icecase is running on local host
     # select IP address that icecast is running on
@@ -128,8 +140,11 @@ def setup(prevMenu):
     while TSI_check:
         if TSI_updated[0] == False:
             if traktorMachine() == 'local':
+                if TSI_updated[1].startswith('INFORMATION: '): reminder = True, 'Don\'t forget to copy the \'Tracktor Settings.tsi\' file back to your remote PC.'
+                else: reminder = False, None
                 TSI_updated = localTSI(TSI_data[0], TSI_data[1], TSI_data[2])
                 print(TSI_updated[1])
+                if reminder[0]==True: print(reminder[1])
             else:
                 TSI_updated = remoteTSI(TSI_data[0], TSI_data[1], TSI_data[2])
                 print(TSI_updated[1])
@@ -143,10 +158,13 @@ def setup(prevMenu):
                 print('4. Choose \'Yes\' when asked if Traktor is installed locally')
                 print('5. Use the file you saved when selecting \'Traktor Settings.tsi\'.')
                 print('6. Once complete, copy the file back to the original PC, replacing the original file.')
+                print()
         TSI_check = not TSI_updated[0]
 
     #TODO
-    # close Traktor
+
+    # missed the CLEveR application, started adding but it gives a 404 for the url.  Web browser still manages it though...
+    # started working on the requirements for the operating section of the tool
 
     # need to tell user to start Traktor streaming
 

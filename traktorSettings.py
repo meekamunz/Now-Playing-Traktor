@@ -41,7 +41,7 @@ def localTSI(djName, icecastIP, icecastPassword):
         if ok_to_update:
             # got the file and it is a Traktor TSI file, now update the file
             TraktorSettings(tsiFile, djName, icecastIP, icecastPassword)
-            return True, 'Traktor settings complete.'
+            return True, 'Finished editing \'Traktor Settings.tsi\'.'
         else: return False, 'ERROR: This is not a Traktor Settings file!'
     else: return False, 'ERROR: No TSI file found.'
 
@@ -76,4 +76,3 @@ def TraktorSettings(traktorSettingsFile, djName, icecastIP, icecastPassword):
     newfile.close()
     # remove the old file and replace with the temp (replace removes from source location, so no need to remove)
     os.replace(tempPath+'\\Traktor Settings.tsi', traktorSettingsFile)
-    print('Finished editing Traktor Settings file.')
