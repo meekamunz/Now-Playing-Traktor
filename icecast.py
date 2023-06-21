@@ -96,3 +96,22 @@ def icecastXml(djName):
 # '<admin-password>hackme</admin-password>', '<admin-password>escapepod</admin-password>'
 # '<location>Earth</location>', '<location>DJ?</location>'
 # '<admin>icemaster@localhost</admin>', '<admin>the.escape.bot@gmail.com</admin>'
+
+
+# get DJ name from Icecast settings
+def extract_dj_name_from_icecast(icecast_file):
+    try:
+        with open(icecast_file, 'r') as file:
+            contents = file.read()
+            start_tag = '<location>'
+            end_tag = '</location>'
+            start_index = contents.find(start_tag)
+            end_index = contents.find(end_tag)
+            
+            if start_index != -1 and end_index != -1:
+                data = contents[start_index + len(start_tag):end_index].strip()
+                return data
+            else:
+                print("Start or end tag not found in the file.")
+    except FileNotFoundError:
+        print(f"File '{file_path}' not found.")

@@ -1,10 +1,11 @@
-from icecast import getIcecast, icecastXml
+from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp
 from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 from traktorSettings import traktorMachine,  remoteTSI, localTSI
+from operateThePod import start_icecast
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
@@ -44,11 +45,7 @@ def main():
                 setup(menuTitle)
                 
             elif mainMenuSelect == 2:
-                # use variable 'path' as a location for the services
-                # run scripts inc;
-                # get user to start streaming
-                # now-playing,
-                # last-10-tracks
+                #
                 pass
             
             elif mainMenuSelect == 3:
@@ -75,6 +72,24 @@ def main():
             print('Type [0] to exit')
             print()
             sleep(1)
+
+# operate the pod
+def operations(prevMenu)
+    # use variable 'path' as a location for the services
+    global path
+    # Start Icecast via NSSM
+    start_icecast(path, 'Icecast')
+
+    # User to start streaming from Traktor
+    extracted_dj_name = extract_dj_name_from_icecast('C:\Program Files (x86)\Icecast\icecast.xml')
+    print(f'Hey {extracted_dj_name}, start streaming in Traktor now!')
+    wait()
+    # start Winamp
+    # use CLEveR to load ogg.m3u into Winamp
+    # stop Icecast via nssm
+    # kill Winamp
+    # now-playing,
+    # last-10-tracks
 
 # initial setup
 def setup(prevMenu):

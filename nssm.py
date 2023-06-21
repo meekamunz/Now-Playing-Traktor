@@ -64,7 +64,7 @@ def nssmServiceRemove(location, service):
 def nssm_start(location, service_name):
     nssm_path=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\nssm.exe'
     command = [nssm_path, 'start', service_name]
-    #
+    
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
         print(f"Service '{service_name}' started successfully.")
@@ -75,7 +75,7 @@ def nssm_start(location, service_name):
 def nssm_stop(location, service_name):
     nssm_path=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\nssm.exe'
     command = [nssm_path, 'stop', service_name]
-    #
+    
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
         print(f"Service '{service_name}' stopped successfully.")
