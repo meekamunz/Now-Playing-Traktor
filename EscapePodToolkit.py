@@ -44,6 +44,7 @@ def main():
                 setup(menuTitle)
                 
             elif mainMenuSelect == 2:
+                # use variable 'path' as a location for the services
                 # run scripts inc;
                 # get user to start streaming
                 # now-playing,
@@ -78,7 +79,7 @@ def main():
 # initial setup
 def setup(prevMenu):
     global path
-    # not sure, maybe force a location?
+    # not sure, maybe force a location? Yeah, do that!
     # define a temp location
     #print('Set an empty temporary directory...')
     #tempLocation = askdirectory()
@@ -109,9 +110,7 @@ def setup(prevMenu):
     guiInstaller(winamp)
 
     # need to get CLEveR (CommandLine EVEnt Renderer for WinAmp)
-    # This launches our stream in Winamp
-    clever = getClever(path)
-    # install ??
+    getClever(path)    
 
     # do AMIP stuff
     amip = getAmip(path)

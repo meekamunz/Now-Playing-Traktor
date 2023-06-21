@@ -16,13 +16,14 @@ def getWinamp(location):
     print('Downloaded.')
     return target
 
-# download CLEver to location
+# download CLEveR to location
 def getClever(location):
     # create a subfolder to location
     path = os.path.join(location, 'CLEveR')
     makeDir(path)
-    #
-    url = 'https://winampheritage.com/plugin/58602/CLEveR.exe'
+    # The winamp heritage site is probably doing a javescript funny...
+    #url = 'https://winampheritage.com/plugin/58602/CLEveR.exe'
+    url = 'http://www.etcwiki.org/dl/CLEveR.exe'
     target = os.path.join(path, 'CLEveR.exe')
     #
     print('Downloading CLEveR...')

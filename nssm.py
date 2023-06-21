@@ -1,6 +1,6 @@
 from urllib.request import urlretrieve
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os, zipfile
+import os, zipfile, subprocess
 
 # get NSSM
 def getNssm(location):
@@ -59,3 +59,25 @@ def nssmServiceRemove(location, service):
         print('No Existing service.')
     wait()
     os.chdir(cwd)
+
+# nssm_start
+def nssm_start(location, service_name):
+    nssm_path=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\nssm.exe'
+    command = [nssm_path, 'start', service_name]
+    #
+    try:
+        subprocess.check_output(command, stderr=subprocess.STDOUT)
+        print(f"Service '{service_name}' started successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to start service '{service_name}': {e.output.decode()}")
+
+# nssm_stop
+def nssm_stop(location, service_name):
+    nssm_path=location+'\\nssm\\nssm-2.24-101-g897c7ad\\win32\\nssm.exe'
+    command = [nssm_path, 'stop', service_name]
+    #
+    try:
+        subprocess.check_output(command, stderr=subprocess.STDOUT)
+        print(f"Service '{service_name}' stopped successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to stop service '{service_name}': {e.output.decode()}")
