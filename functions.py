@@ -13,6 +13,8 @@ def is_application_running(application_name):
             return True
     return False
 
+# kill application
+
 # get local IP address
 def get_local_ip_addresses():
     ip_addresses = []

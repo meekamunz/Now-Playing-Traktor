@@ -1,6 +1,6 @@
 from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os, ssl
+import os, ssl, subprocess
 
 # download winamp to location
 def getWinamp(location):
@@ -30,3 +30,14 @@ def getClever(location):
     urlretrieve(url, target)
     print('Downloaded.')
     return target
+
+# start winamp
+def start_winamp():
+    winamp_path = 'C:\\Program Files (x86)\\Winamp\\winamp.exe'
+    command = [winamp_path]
+    try:
+        subprocess.Popen(command)
+        focus('EscapePodToolkit')
+        return 'Winamp started successfully.'
+    except FileNotFoundError:
+        return 'ERROR: Failed to start Winamp.'

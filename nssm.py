@@ -67,9 +67,9 @@ def nssm_start(location, service_name):
     
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
-        print(f"Service '{service_name}' started successfully.")
+        print(f'Service {service_name} started successfully.')
     except subprocess.CalledProcessError as e:
-        print(f"Failed to start service '{service_name}': {e.output.decode()}")
+        print(f'Failed to start service {service_name}: {e.output.decode()}')
 
 # nssm_stop
 def nssm_stop(location, service_name):
@@ -78,6 +78,6 @@ def nssm_stop(location, service_name):
     
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
-        print(f"Service '{service_name}' stopped successfully.")
+        print(f'Service {service_name} stopped successfully.')
     except subprocess.CalledProcessError as e:
-        print(f"Failed to stop service '{service_name}': {e.output.decode()}")
+        print(f'Failed to stop service {service_name}: {e.output.decode()}')

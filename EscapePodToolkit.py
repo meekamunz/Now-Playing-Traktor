@@ -84,7 +84,10 @@ def operations(prevMenu)
     extracted_dj_name = extract_dj_name_from_icecast('C:\Program Files (x86)\Icecast\icecast.xml')
     print(f'Hey {extracted_dj_name}, start streaming in Traktor now!')
     wait()
+
     # start Winamp
+
+
     # use CLEveR to load ogg.m3u into Winamp
     # stop Icecast via nssm
     # kill Winamp
