@@ -1,6 +1,6 @@
 from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
-from winamp import getWinamp
+from winamp import getWinamp, start_winamp
 from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
@@ -86,9 +86,11 @@ def operations(prevMenu)
     wait()
 
     # start Winamp
-
+    start_winamp()
 
     # use CLEveR to load ogg.m3u into Winamp
+    #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
+
     # stop Icecast via nssm
     # kill Winamp
     # now-playing,
@@ -179,11 +181,7 @@ def setup(prevMenu):
         TSI_check = not TSI_updated[0]
 
     #TODO
-
-    # missed the CLEveR application, started adding but it gives a 404 for the url.  Web browser still manages it though...
-    # started working on the requirements for the operating section of the tool
-
-    # need to tell user to start Traktor streaming
+    # continue working on streaming services - need to add a 'kill application' command that partially matches a name (winamp can append the track to the process name)
 
     # create last ten tracks file - the trackname tool should be built in, and should create the files it needs during operation, and clean up at end of operation.
 
