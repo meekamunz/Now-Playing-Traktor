@@ -1,11 +1,11 @@
 from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
-from winamp import getWinamp, start_winamp
+from winamp import getWinamp, start_winamp, getClever
 from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 from traktorSettings import traktorMachine,  remoteTSI, localTSI
-from operateThePod import start_icecast
+from operateThePod import load_winamp_ogg, start_icecast
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
@@ -74,9 +74,48 @@ def main():
             sleep(1)
 
 # operate the pod
-def operations(prevMenu)
+def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_ten='Unknown')
     # use variable 'path' as a location for the services
     global path
+    
+    # create menu for services
+    menuTitle = 'Operations Menu'
+    titleName = '| Escape Pod Toolkit |'
+    title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
+    ops_menu_loop = True
+    while ops_menu_loop:
+        try:
+            clear()
+            print(title)
+            print()
+            print(menuTitle)
+            print()
+            print(' [1] Start Broadcasting')
+            print(' [2] Stop Broadcasting')
+            print(' [3] Enable \'Now Playing\' Script')
+            print(' [4] Enable \'Last 10 Tracks\' Script')
+            print(' [.]')
+            print(' [0] Exit Escape Pod Toolkit')
+            print()
+            print(f'Broadcasting State: {broadcast_state}')
+            print(f'Now Playing Script State: {now_playing}')
+            print(f'Last 10 Tracks Script State: {last_ten}')
+            
+            ops_menu_select = int(input('Select an option: '))
+            if ops_menu_select == 1: start_broadcasting(path)
+            
+            elif: ops_menu_select == 2: stop_broadcasting(path)
+            
+            elif: ops_menu_select == 3: 
+                
+        except (IndexError, ValueError) as e: # input error handling, can print(e) if required
+            print()
+            print ('Invalid selection.  Please use a number in the list.')
+            print('Type [0] to exit')
+            print()
+            sleep(1)
+            
+def start_broadcasting(path):
     # Start Icecast via NSSM
     start_icecast(path, 'Icecast')
 
@@ -89,6 +128,9 @@ def operations(prevMenu)
     start_winamp()
 
     # use CLEveR to load ogg.m3u into Winamp
+    load_winamp_ogg(extracted_dj_name, path)
+    
+def stop_broadcasting(path)
     #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
 
     # stop Icecast via nssm
@@ -130,7 +172,7 @@ def setup(prevMenu):
     guiInstaller(winamp)
 
     # need to get CLEveR (CommandLine EVEnt Renderer for WinAmp)
-    getClever(path)    
+    getClever(path)
 
     # do AMIP stuff
     amip = getAmip(path)
