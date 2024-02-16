@@ -1,6 +1,11 @@
 from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os, ssl, subprocess
+import os, ssl, subprocess, pickletools, logger_config
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging 
 
 # download winamp to location
 def getWinamp(location):
@@ -11,9 +16,9 @@ def getWinamp(location):
     url = 'https://download.winamp.com/winamp/winamp_latest_full.exe'
     target = os.path.join(path, 'winamp_latest_full.exe')
 
-    print('Downloading Winamp...')
+    logging.info('Downloading Winamp...')
     urlretrieve(url, target)
-    print('Downloaded.')
+    logging.info('Winamp downloaded.')
     return target
 
 # download CLEveR to location
@@ -26,9 +31,9 @@ def getClever(location):
     url = 'http://www.etcwiki.org/dl/CLEveR.exe'
     target = os.path.join(path, 'CLEveR.exe')
     #
-    print('Downloading CLEveR...')
+    logging.info('Downloading CLEveR...')
     urlretrieve(url, target)
-    print('Downloaded.')
+    logging.info('CLEveR downloaded.')
     return target
 
 # start winamp

@@ -1,6 +1,11 @@
 from urllib.request import urlretrieve
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os, zipfile, subprocess
+import os, zipfile, subprocess, logger_config
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging
 
 # get NSSM
 def getNssm(location):
@@ -9,25 +14,25 @@ def getNssm(location):
     makeDir(path)
     
     # Use this version only!!!
-    print('Downloading NSSM...')
+    logging.info('Downloading NSSM...')
     
     # set target file+directory
     target = os.path.join(path, 'nssm-2.24-101-g897c7ad.zip')
     url = 'https://nssm.cc/ci/nssm-2.24-101-g897c7ad.zip'
     urlretrieve(url, target)
-    print('Complete.')
+    logging.info('NSSM download complete.')
     return target
 
 # install NSSM
 def installNssm(nssmZip):
-    print('Extracting NSSM...')
+    logging.info('Extracting NSSM...')
     
     # get the dir from target
     targetDir = nssmZip.rsplit('\\', 1)[0]
     # extract the right version from the zip
     with zipfile.ZipFile(nssmZip, 'r') as zip_ref:
         zip_ref.extractall(targetDir)
-    print('Extracted NSSM.')
+    logging.info('Extracted NSSM.')
 
 # NSSM Service Installer
 def nssmService(location, service):
@@ -50,13 +55,13 @@ def nssmServiceRemove(location, service):
     os.chdir(workingDir)
     try:
         # in case of previous install
-        print('Stopping '+service+'...')
+        logging.info('Stopping '+service+'...')
         if os.popen('nssm stop '+service) != 'Can\'t open service!':
-            print(service+' stopped.  Removing '+service+'...')
+            logging.info(service+' stopped.  Removing '+service+'...')
             os.popen('nssm remove '+service)
-            print(service+' removed.')
+            logging.info(service+' removed.')
     except Exception as e:
-        print('No Existing service.')
+        logging.debug('No Existing service.')
     wait()
     os.chdir(cwd)
 
@@ -67,9 +72,9 @@ def nssm_start(location, service_name):
     
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
-        print(f'Service {service_name} started successfully.')
+        logging.info(f'Service {service_name} started successfully.')
     except subprocess.CalledProcessError as e:
-        print(f'Failed to start service {service_name}: {e.output.decode()}')
+        logging.debug(f'Failed to start service {service_name}: {e.output.decode()}')
 
 # nssm_stop
 def nssm_stop(location, service_name):
@@ -78,6 +83,6 @@ def nssm_stop(location, service_name):
     
     try:
         subprocess.check_output(command, stderr=subprocess.STDOUT)
-        print(f'Service {service_name} stopped successfully.')
+        logging.info(f'Service {service_name} stopped successfully.')
     except subprocess.CalledProcessError as e:
-        print(f'Failed to stop service {service_name}: {e.output.decode()}')
+        logging.debug(f'Failed to stop service {service_name}: {e.output.decode()}')

@@ -1,6 +1,11 @@
 from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus
-import os, ssl
+import os, ssl, logger_config
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging 
 
 # getIcecast
 def getIcecast(location):
@@ -9,7 +14,7 @@ def getIcecast(location):
     makeDir(path)
     
     # get list of versions of Icecast and sort
-    print('Getting Icecast versions...')
+    logging.info('Getting Icecast versions...')
     print()
     url = 'https://downloads.xiph.org/releases/icecast'
     ext = 'exe'
@@ -47,7 +52,7 @@ def getIcecast(location):
             # select icecast version
             icecastChoice = int(input('Choose Icecast Version: '))
             if 0 < icecastChoice <= len(versions):
-                print('Downloading '+str(versions[icecastChoice-1])+'...')
+                logging.info('Downloading '+str(versions[icecastChoice-1])+'...')
                 
                 # set target file+directory
                 target = os.path.join(path, versions[icecastChoice-1])
@@ -57,22 +62,23 @@ def getIcecast(location):
                 urlretrieve(icecastVersions[icecastChoice-1], target)
                 versionLoop = False
             else:
-                print ('Invalid selection.  Please use a number in the list.')
+                logger.debug ('Invalid selection.  Please use a number in the list.')
                 sleep(1)
                 pass
             
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
-            print ('Invalid selection.  Please use a number in the list.')
+            logger.debug ('Invalid selection.  Please use a number in the list.')
             sleep(1)
             
-    print('Complete.')
+    logging.info('Icecast download complete.')
     return target
 
 # Configure Icecast
-def icecastXml(djName):
+def icecastXml(djName, password='escapepod'):
+    logging.info('Configuring Icecast...')
     #set password for icecast services
-    icecastPassword='escapepod'
+    icecastPassword=password
     # Read in the XML
     with open ('C:\Program Files (x86)\Icecast\icecast.xml', 'r') as file:
         filedata = file.read()
@@ -88,6 +94,7 @@ def icecastXml(djName):
     # Write over the XML with new data
     with open('C:\Program Files (x86)\Icecast\icecast.xml', 'w') as file:
         file.write(filedata)
+    logging.info('Icecast configured successfully.')
     return icecastPassword, djName
         
 
@@ -100,6 +107,7 @@ def icecastXml(djName):
 
 # get DJ name from Icecast settings
 def extract_dj_name_from_icecast(icecast_file):
+    logging.info('Getting DJ Name...')
     try:
         with open(icecast_file, 'r') as file:
             contents = file.read()
@@ -112,6 +120,6 @@ def extract_dj_name_from_icecast(icecast_file):
                 data = contents[start_index + len(start_tag):end_index].strip()
                 return data
             else:
-                print("Start or end tag not found in the file.")
+                logging.debug("Start or end tag not found in the file.")
     except FileNotFoundError:
-        print(f"File '{file_path}' not found.")
+        logging.debug(f"File '{file_path}' not found.")

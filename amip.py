@@ -1,6 +1,11 @@
 from urllib.request import urlretrieve
 from functions import wait, sleep, makeDir, focus
-import os, zipfile
+import os, zipfile, logger_config
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging
 
 def getAmip(location):
     # create a sub folder to location
@@ -8,29 +13,30 @@ def getAmip(location):
     makeDir(path)
 
     # Use this version only!!!
-    print('Downloading AMIP...')
+    logging.info('Downloading AMIP...')
     
     # set target file+directory
     target = os.path.join(path, 'amip_winamp.zip')
     url = 'http://amip.tools-for.net/ds/dl.php?f=/files/amip_winamp.zip'
     urlretrieve(url, target)
-    print('Complete.')
+    logging.info('AMIP download complete.')
     return target
 
 # install amip
 def installAmip(amipZip):
-    print('Extracting NSSM...')
+    logging.info('Extracting NSSM...')
     
     # get the dir from target
     targetDir = amipZip.rsplit('\\', 1)[0]
     # extract the right version from the zip
     with zipfile.ZipFile(amipZip, 'r') as zip_ref:
         zip_ref.extractall(targetDir)
-    print('Extracted AMIP.')
+    logging.info('Extracted AMIP.')
 
 # amip file configurator
 def amipConfig(location):
     # open the plugin.ini
+    logging.info('Configuring AMIP.')
     with open ('C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'r') as file:
         filedata = file.read()
 
@@ -45,3 +51,4 @@ def amipConfig(location):
     # Write over the plugin.ini with new data
     with open('C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'w') as file:
         file.write(filedata)
+    logging.info('AMIP configured successfully.')

@@ -1,10 +1,15 @@
 import msvcrt as m
-import os, requests, subprocess, re, ctypes, enum, sys, socket, psutil
+import os, requests, subprocess, re, ctypes, enum, sys, socket, psutil, logger_config
 import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
 import tkinter as tk
 from tkinter import filedialog
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging
 
 # check if application (application_name) is running
 def is_application_running(application_name):
@@ -24,7 +29,7 @@ def get_local_ip_addresses():
         ip_addresses = socket.getaddrinfo(host_name, None, socket.AF_INET, socket.SOCK_STREAM)
         ip_addresses = [addr[4][0] for addr in ip_addresses]
     except Exception as e:
-        print(f'Error getting local IP addresses: {str(e)}')
+        logging.debug(f'Error getting local IP addresses: {str(e)}')
     return ip_addresses
 
 # choose IP address from a list called 'ip_addresses'
@@ -88,11 +93,11 @@ def djName():
             if any(e in djName for e in illegalChars) == False:
                 return djName
             else:
-                print('Illegal characters in DJ Name.')
+                logging.debug('Illegal characters in DJ Name.')
                 illegalDj = [e for e in illegalChars if e in djName]
                 iDj = ' '.join(illegalDj)
-                print(f'{djName} contains: {iDj}')
-                print('Replacing illegal characters...')
+                logging.debug(f'{djName} contains: {iDj}')
+                logging.debug('Replacing illegal characters...')
                 for chars in illegalChars:
                     djName = djName.replace(chars, '.')
                 return djName
@@ -134,64 +139,64 @@ def makeDir(path):
 
 # run a GUI based installer (file) for the user to install
 def guiInstaller(file):
-    print(f'Installing {file}, please follow on screen instructions...')
+    logging.info(f'Installing {file}, please follow on screen instructions...')
     # subprocess.Popen or subprocess.run???
     # use subprocess.run in this instance as we want to wait for application to install
     p = subprocess.run([file], shell=True)
     if p.returncode != 0:
-        print(f'Error installing {file}...')
+        logging.debug(f'Error installing {file}...')
         wait()
-    else: print(f'{file} installed.')
+    else: logging.info(f'{file} installed.')
 
 # switch Windows focus
-def focus(windowName):
-    titles = gw.getAllTitles()
-    search = re.compile('.*'+windowName+'.*')
-    match = [string for string in titles if re.match(search, string)]
-    window = gw.getWindowsWithTitle(match[0])[0]
-    # pygetwindow activate the handle is invalid
-    window.minimize()
-    window.restore()
+def focus(windowName=None):
+    if windowName:
+        titles = gw.getAllTitles()
+        search = re.compile('.*' + windowName + '.*')
+        match = [string for string in titles if re.match(search, string)]
+        if match:
+            window = gw.getWindowsWithTitle(match[0])[0]
+            # pygetwindow activate the handle is invalid
+            window.minimize()
+            window.restore()
+        else:
+            logging.debug(f"No window with name '{windowName}' found.")
+    else:
+        active_window = gw.getActiveWindow()
+        if active_window:
+            active_window.minimize()
+            active_window.restore()
+        else:
+            logging.debug("No active window found.")
 
 # bootstrap for admin privileges
-class SW(enum.IntEnum):
+SW_SHOWNORMAL = 1
 
-    HIDE = 0
-    MAXIMIZE = 3
-    MINIMIZE = 6
-    RESTORE = 9
-    SHOW = 5
-    SHOWDEFAULT = 10
-    SHOWMAXIMIZED = 3
-    SHOWMINIMIZED = 2
-    SHOWMINNOACTIVE = 7
-    SHOWNA = 8
-    SHOWNOACTIVATE = 4
-    SHOWNORMAL = 1
-
-
-class ERROR(enum.IntEnum):
-
-    ZERO = 0
-    FILE_NOT_FOUND = 2
-    PATH_NOT_FOUND = 3
-    BAD_FORMAT = 11
-    ACCESS_DENIED = 5
-    ASSOC_INCOMPLETE = 27
-    DDE_BUSY = 30
-    DDE_FAIL = 29
-    DDE_TIMEOUT = 28
-    DLL_NOT_FOUND = 32
-    NO_ASSOC = 31
-    OOM = 8
-    SHARE = 26
+ERROR_FILE_NOT_FOUND = 2
+ERROR_PATH_NOT_FOUND = 3
+ERROR_ACCESS_DENIED = 5
 
 def bootstrap():
+    """
+    Elevates privileges if the script is not already running with administrator rights.
+    """
     if ctypes.windll.shell32.IsUserAnAdmin():
         return True
     else:
+        # Try to elevate privileges
         hinstance = ctypes.windll.shell32.ShellExecuteW(
-            None, 'runas', sys.executable, sys.argv[0], None, SW.SHOWNORMAL
+            None, 'runas', sys.executable, sys.argv[0], None, SW_SHOWNORMAL
         )
+        # Check if elevation failed
         if hinstance <= 32:
-            raise RuntimeError(ERROR(hinstance))
+            # Raise a RuntimeError with the appropriate error code
+            error_code = hinstance if hinstance in [ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND, ERROR_ACCESS_DENIED] else 'Unknown error'
+            raise RuntimeError(f"Elevation failed. Error code: {error_code}")
+
+        
+if __name__ == '__main__':
+    print('here')
+    logging.debug('testing functions...')
+    bootstrap()
+    print('working?')
+    wait()

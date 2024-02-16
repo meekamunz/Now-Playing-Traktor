@@ -1,31 +1,24 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-block_cipher = None
-
-
 a = Analysis(
     ['EscapePodToolKit.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[('icecast.py', '.'), ('nssm.py', '.'), ('winamp.py', '.'), ('amip.py', '.'), ('functions.py', '.'), ('cleanup.py', '.'), ('traktorSettings.py', '.'), ('operateThePod.py', '.'), ('logger_config.py', '.')],
+    hiddenimports=['urllib.request', 'requests', 'ctypes', 'psutil', 'pickletools', 'bs4', 'pygetwindow'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
     noarchive=False,
 )
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
-    a.zipfiles,
     a.datas,
     [],
     name='EscapePodToolkit',
@@ -41,5 +34,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='icon.ico',
+    icon=['icon.ico'],
 )

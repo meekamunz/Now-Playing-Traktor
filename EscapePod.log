@@ -1,0 +1,40 @@
+2024-02-16 16:01:08,965 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:01:08,967 - root - INFO - Admin privileges granted.
+2024-02-16 16:03:27,706 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:03:27,707 - root - INFO - Admin privileges granted.
+2024-02-16 16:04:03,850 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:04:03,852 - root - INFO - Admin privileges granted.
+2024-02-16 16:10:21,691 - root - INFO - testing logger
+2024-02-16 16:11:58,839 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:11:58,840 - root - INFO - Admin privileges granted.
+2024-02-16 16:11:58,841 - root - DEBUG - here
+2024-02-16 16:12:49,187 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:12:49,188 - root - INFO - Admin privileges granted.
+2024-02-16 16:13:29,085 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:13:29,086 - root - INFO - Admin privileges granted.
+2024-02-16 16:13:41,218 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:13:41,219 - root - INFO - Admin privileges granted.
+2024-02-16 16:13:41,220 - root - DEBUG - here
+2024-02-16 16:14:29,621 - root - DEBUG - here
+2024-02-16 16:15:05,148 - root - DEBUG - here
+2024-02-16 16:18:03,016 - root - DEBUG - here
+2024-02-16 16:18:33,761 - root - DEBUG - here
+2024-02-16 16:18:46,822 - root - DEBUG - here
+2024-02-16 16:19:19,265 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:19:19,267 - root - INFO - Admin privileges granted.
+2024-02-16 16:19:19,269 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-16 16:19:31,492 - root - INFO - Exiting Escape Pod Tool Kit.
+2024-02-16 16:22:13,961 - root - DEBUG - testing functions...
+2024-02-16 16:22:15,963 - root - DEBUG - testing functions...
+2024-02-16 16:22:35,047 - root - DEBUG - testing functions...
+2024-02-16 16:22:36,867 - root - DEBUG - testing functions...
+2024-02-16 16:31:47,199 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:31:49,207 - root - DEBUG - Unable to complete bootstrap.  Please run with admin privilages.
+2024-02-16 16:31:49,614 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:31:49,615 - root - INFO - Admin privileges granted.
+2024-02-16 16:33:49,003 - root - INFO - Exiting Escape Pod Tool Kit.
+2024-02-16 16:59:21,651 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:59:23,868 - root - DEBUG - Unable to complete bootstrap.  Please run with admin privilages.
+2024-02-16 16:59:24,910 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-16 16:59:24,911 - root - INFO - Admin privileges granted.
+2024-02-16 17:00:19,521 - root - INFO - Exiting Escape Pod Tool Kit.

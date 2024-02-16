@@ -1,66 +1,71 @@
 from functions import focus, wait, sleep
-import os, subprocess
+import os, subprocess, logger_config
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging 
 
 # remove Icecast program and files
 def removeIcecast(location):
     dir = 'C:\\Program Files (x86)\\Icecast\\'
-    print('Uninstalling Icecast...')
+    logging.info('Uninstalling Icecast...')
     p = subprocess.run([dir+'Uninstall.exe'])
     if p.returncode != 0:
-        print('Error uninstalling Icecast...')
+        logging.debug('Error uninstalling Icecast...')
         wait()
-    else: print('Icecast uninstalled.')
-    print('Removing Icecast folders...')
+    else: logging.info('Icecast uninstalled.')
+    logging.info('Removing Icecast folders...')
     os.system('rmdir /S /Q "{}"'.format(location+'\\Icecast'))
     os.system('rmdir /S /Q "{}"'.format(dir))
-    print('Icecast folders removed.')
+    logging.info('Icecast folders removed.')
     return True
 
 # remove NSSM files
 def removeNssm(location):
-    print('Removing NSSM...')
+    logging.info('Removing NSSM...')
     os.system('rmdir /S /Q "{}"'.format(location+'\\nssm'))
-    print('NSSM removed.')
+    logging.info('NSSM removed.')
     return True
 
 # remove Escape Pod Tools folder
 def cleanupEPTroot(location):
-    print('Removing Escape Pod Toolkit folders...')
+    logging.info('Removing Escape Pod Toolkit folders...')
     os.system('rmdir /S /Q "{}"'.format(location))
-    print('Escape Pod Toolkit folders removed.')
+    logging.info('Escape Pod Toolkit folders removed.')
     return True
 
 # remove winamp program
 def removeWinamp(location):
     dir = 'C:\\Program Files (x86)\\Winamp\\'
-    print('Uninstalling Winamp...')
+    logging.info('Uninstalling Winamp...')
     p = subprocess.run([dir+'UninstWA.exe'])
     if p.returncode != 0:
-        print('Error uninstalling Winamp...')
+        logging.debug('Error uninstalling Winamp...')
         wait()
-    else: print('Winamp uninstalled.')
-    print('Removing Winamp folders...')
+    else: logging.info('Winamp uninstalled.')
+    logging.info('Removing Winamp folders...')
     os.system('rmdir /S /Q "{}"'.format(location+'\\Winamp'))
     os.system('rmdir /S /Q "{}"'.format(dir))
-    print('Winamp folders removed.')
+    logging.info('Winamp folders removed.')
     return True
 
 # remove amip program
 def removeAmip(location):
     dir = 'C:\\Program Files (x86)\\Winamp\\Plugins\\'
-    print('Uninstalling AMIP...')
+    logging.info('Uninstalling AMIP...')
     p = subprocess.run([dir+'un_configurator.exe'])
     if p.returncode != 0:
-        print('Error uninstalling AMIP...')
+        logging.debug('Error uninstalling AMIP...')
         wait()
-        print('Attempting alternate uninstall path...')
+        logging.debug('Attempting alternate uninstall path...')
         q = subprocess.run([dir+'amip_uninstall.exe'])
         if q.returncode != 0:
-            print('Alternate uninstaller failed.  Aborting AMIP uninstall.')
+            logging.debug('Alternate uninstaller failed.  Aborting AMIP uninstall.')
             wait()
-    else: print('AMIP uninstalled.')
-    print('Removing AMIP folders...')
+    else: logging.info('AMIP uninstalled.')
+    logging.info('Removing AMIP folders...')
     os.system('rmdir /S /Q "{}"'.format(location+'\\AMIP'))
     os.system('rmdir /S /Q "{}"'.format(dir))
-    print('AMIP folders removed.')
+    logging.info('AMIP folders removed.')
     return True

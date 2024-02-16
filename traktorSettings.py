@@ -1,6 +1,10 @@
 from functions import yesNo, open_file_dialog
-import re, tempfile, os
+import re, tempfile, os, logger_config
 
+# Logging Configuration
+logger_config.configure_logging() 
+
+import logging
 
 # need to tell user to set Traktor settings for either local or remote streaming
 
@@ -59,7 +63,7 @@ def TraktorSettings(traktorSettingsFile, djName, icecastIP, icecastPassword):
             oldData+=['<Entry Name="Broadcast.IcecastMetadata.Name" Type="3" Value="(.*)"></Entry>', '<Entry Name="Broadcast.IcecastServer.Address" Type="3" Value="(.*)"></Entry>', '<Entry Name="Broadcast.IcecastServer.Bitrate" Type="1" Value="(.*)"></Entry>', '<Entry Name="Broadcast.IcecastServer.MountPath" Type="3" Value="(.*)"></Entry>', '<Entry Name="Broadcast.IcecastServer.Password" Type="3" Value="(.*)"></Entry>', '<Entry Name="Broadcast.IcecastServer.Port" Type="1" Value="(.*)"></Entry>', '<Entry Name="Broadcast.IcecastServer.Samplerate" Type="1" Value="(.*)"></Entry>']
             newData=[]
             newData+=[f'<Entry Name="Broadcast.IcecastMetadata.Name" Type="3" Value="{djName} - The Escape Pod"></Entry>', f'<Entry Name="Broadcast.IcecastServer.Address" Type="3" Value="{icecastIP}"></Entry>', '<Entry Name="Broadcast.IcecastServer.Bitrate" Type="1" Value="192000"></Entry>', f'<Entry Name="Broadcast.IcecastServer.MountPath" Type="3" Value="{djName}.ogg"></Entry>', f'<Entry Name="Broadcast.IcecastServer.Password" Type="3" Value="{icecastPassword}"></Entry>', '<Entry Name="Broadcast.IcecastServer.Port" Type="1" Value="8000"></Entry>', '<Entry Name="Broadcast.IcecastServer.Samplerate" Type="1" Value="44100"></Entry>'] # TODO: get data for value    
-            print('Writing new data to \'Traktor Settings.tsi\'...')
+            logging.info('Writing new data to \'Traktor Settings.tsi\'...')
             i=0
             #while i<len(oldData):
             for line in file:
@@ -69,7 +73,7 @@ def TraktorSettings(traktorSettingsFile, djName, icecastIP, icecastPassword):
                     if re.compile(oldData[i]).match(line):
                         # replace old data at position i with new data at postion i
                         line=(re.sub(oldData[i], newData[i], line))
-                        print(f'Setting :{newData[i]} in {traktorSettingsFile}...')
+                        logging.info(f'Setting :{newData[i]} in {traktorSettingsFile}...')
                         i=i+1
                 newfile.write(line)
             file.close()

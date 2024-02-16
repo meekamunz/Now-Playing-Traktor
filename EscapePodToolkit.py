@@ -1,3 +1,4 @@
+import logging
 from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp, start_winamp, getClever
@@ -9,7 +10,15 @@ from operateThePod import load_winamp_ogg, start_icecast
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
-import os, sys
+import os, sys, logger_config
+
+# Logging Configuration
+logger_config.configure_logging() 
+
+#import logging
+
+# Application version
+__version__ = '0.1.0'
 
 # hide the tk root window
 root=tk.Tk()
@@ -56,15 +65,18 @@ def main():
                             if removeAmip(path) == True:
                                 if cleanupEPTroot(path) == True:
                                     wait()
-                                else: print('folder clean-up error.')
-                            else: print('AMIP clean-up error.')
-                        else: print('Winamp clean-up error.')
-                    else: print('NSSM clean-up error.')
-                else: print('Icecast clean-up error.')
+                                else: logging.debug('folder clean-up error.')
+                            else: logging.debug('AMIP clean-up error.')
+                        else: logging.debug('Winamp clean-up error.')
+                    else: logging.debug('NSSM clean-up error.')
+                else: logging.debug('Icecast clean-up error.')
             
             elif mainMenuSelect == 0:
                 clear()
+                logging.info('Exiting Escape Pod Tool Kit.')
                 sys.exit()
+                
+                
                 
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
@@ -74,7 +86,7 @@ def main():
             sleep(1)
 
 # operate the pod
-def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_ten='Unknown')
+def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_ten='Unknown'):
     # use variable 'path' as a location for the services
     global path
     
@@ -103,10 +115,11 @@ def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_
             
             ops_menu_select = int(input('Select an option: '))
             if ops_menu_select == 1: start_broadcasting(path)
-            
-            elif: ops_menu_select == 2: stop_broadcasting(path)
-            
-            elif: ops_menu_select == 3: 
+            elif ops_menu_select == 2: stop_broadcasting(path)
+            elif ops_menu_select == 3: logging.debug('feature not complete.')
+            elif ops_menu_select == 4: logging.debug('feature not complete.')
+            elif ops_menu_select == 0: logging.debug('feature not complete.')
+            else: logging.debug('Error in OPs menu.')
                 
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
@@ -130,13 +143,14 @@ def start_broadcasting(path):
     # use CLEveR to load ogg.m3u into Winamp
     load_winamp_ogg(extracted_dj_name, path)
     
-def stop_broadcasting(path)
+def stop_broadcasting(path):
     #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
-
+    logging.debug('feature not complete.')
     # stop Icecast via nssm
     # kill Winamp
     # now-playing,
     # last-10-tracks
+
 
 # initial setup
 def setup(prevMenu):
@@ -147,7 +161,7 @@ def setup(prevMenu):
     #tempLocation = askdirectory()
     
     # Forced location
-    print('Creating \'Escape Pod Toolkit\'...')
+    logging.info('Creating \'Escape Pod Toolkit\'...')
     makeDir(path)
     makeDir(path+'\\Streaming Data')
     
@@ -188,12 +202,13 @@ def setup(prevMenu):
             wait()
         else: traktor_application_check = False
 
-    # assume icecase is running on local host
+    # assume icecast is running on local host
     # select IP address that icecast is running on
     if get_local_ip_addresses:
+        print('Please select the IP address for your network.')
         icecast_ip = prompt_select_ip(get_local_ip_addresses())
     else:
-        print('ERROR: No local IP addresses found.')
+        logging.debug('ERROR: No local IP addresses found.')
 
     TSI_data=[icecastPassword[1], icecast_ip, icecastPassword[0]]
     TSI_updated = False, 'never set'
@@ -228,5 +243,8 @@ def setup(prevMenu):
     # create last ten tracks file - the trackname tool should be built in, and should create the files it needs during operation, and clean up at end of operation.
 
 if __name__ == '__main__':
+    logging.info(f'Starting Escape Pod Tool Kit version {__version__}')
     # get admin privileges
-    if bootstrap() == True: main()
+    if bootstrap() == True:
+        logging.info('Admin privileges granted.')
+        main()
