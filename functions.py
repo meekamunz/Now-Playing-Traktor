@@ -19,6 +19,8 @@ def is_application_running(application_name):
     return False
 
 # kill application
+def kill_process(process_name):
+    os.system(f'taskkill /f /im {process_name}')
 
 # get local IP address
 def get_local_ip_addresses():

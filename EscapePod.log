@@ -38,3 +38,204 @@
 2024-02-16 16:59:24,910 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
 2024-02-16 16:59:24,911 - root - INFO - Admin privileges granted.
 2024-02-16 17:00:19,521 - root - INFO - Exiting Escape Pod Tool Kit.
+2024-02-28 22:50:21,518 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:50:21,543 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:50:21,544 - root - INFO - Getting DJ Name...
+2024-02-28 22:50:24,575 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:50:24,576 - root - INFO - Winamp started successfully
+2024-02-28 22:50:24,578 - root - INFO - Loading local livestream...
+2024-02-28 22:50:24,591 - root - INFO - Broadcasting started.
+2024-02-28 22:50:37,206 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:50:37,220 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:50:37,222 - root - INFO - Getting DJ Name...
+2024-02-28 22:50:39,889 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:50:39,890 - root - INFO - Winamp started successfully
+2024-02-28 22:50:39,891 - root - INFO - Loading local livestream...
+2024-02-28 22:50:39,900 - root - INFO - Broadcasting started.
+2024-02-28 22:50:50,086 - root - DEBUG - feature not complete.
+2024-02-28 22:50:57,726 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:50:57,740 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:50:57,743 - root - INFO - Getting DJ Name...
+2024-02-28 22:50:59,699 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:50:59,703 - root - INFO - Winamp started successfully
+2024-02-28 22:50:59,703 - root - INFO - Loading local livestream...
+2024-02-28 22:50:59,715 - root - INFO - Broadcasting started.
+2024-02-28 22:51:34,862 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:51:34,880 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:51:34,882 - root - INFO - Getting DJ Name...
+2024-02-28 22:51:36,514 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:51:36,515 - root - INFO - Winamp started successfully
+2024-02-28 22:51:36,515 - root - INFO - Loading local livestream...
+2024-02-28 22:51:36,525 - root - INFO - Broadcasting started.
+2024-02-28 22:52:04,333 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:52:19,359 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:52:19,376 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:52:19,378 - root - INFO - Getting DJ Name...
+2024-02-28 22:52:20,594 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:52:20,596 - root - INFO - Winamp started successfully
+2024-02-28 22:52:20,597 - root - INFO - Loading local livestream...
+2024-02-28 22:52:20,608 - root - INFO - Broadcasting started.
+2024-02-28 22:55:15,782 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 22:55:15,798 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:55:15,800 - root - INFO - Getting DJ Name...
+2024-02-28 22:55:18,906 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:55:18,908 - root - INFO - Winamp started successfully
+2024-02-28 22:55:18,908 - root - INFO - Loading local livestream...
+2024-02-28 22:55:18,918 - root - INFO - Broadcasting started.
+2024-02-28 22:55:38,518 - root - DEBUG - feature not complete.
+2024-02-28 22:55:38,519 - root - INFO - Stopping Icecast via NSSM service...
+2024-02-28 22:55:38,533 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 22:55:38,685 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 22:55:38,686 - root - INFO - Winamp stopped successfully
+2024-02-28 22:55:38,687 - root - INFO - All broadcasting services are stopped.
+2024-02-28 23:01:58,574 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:01:58,589 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:01:58,591 - root - INFO - Getting DJ Name...
+2024-02-28 23:01:59,227 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:01:59,228 - root - INFO - Winamp started successfully
+2024-02-28 23:01:59,228 - root - INFO - Loading local livestream...
+2024-02-28 23:01:59,237 - root - INFO - Broadcasting started.
+2024-02-28 23:02:06,818 - root - DEBUG - feature not complete.
+2024-02-28 23:02:06,819 - root - INFO - Stopping Icecast via NSSM service...
+2024-02-28 23:02:06,874 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:02:07,037 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:02:07,038 - root - INFO - Winamp stopped successfully
+2024-02-28 23:02:07,039 - root - INFO - All broadcasting services are stopped.
+2024-02-28 23:02:07,040 - root - INFO - Broadcast duration was 0:00:07.802126.
+2024-02-28 23:04:58,966 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:04:58,981 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:04:58,983 - root - INFO - Getting DJ Name...
+2024-02-28 23:05:00,066 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:05:00,067 - root - INFO - Winamp started successfully
+2024-02-28 23:05:00,069 - root - INFO - Loading local livestream...
+2024-02-28 23:05:00,078 - root - INFO - Broadcasting started.
+2024-02-28 23:05:08,110 - root - DEBUG - feature not complete.
+2024-02-28 23:05:08,197 - root - INFO - Stopping Icecast via NSSM service...
+2024-02-28 23:05:08,218 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:05:08,378 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:05:08,379 - root - INFO - Winamp stopped successfully
+2024-02-28 23:05:08,380 - root - INFO - All broadcasting services are stopped.
+2024-02-28 23:05:08,381 - root - INFO - Broadcast duration was 0:00:08.302116.
+2024-02-28 23:07:55,814 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:07:55,827 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:07:55,829 - root - INFO - Getting DJ Name...
+2024-02-28 23:07:56,529 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:07:56,531 - root - INFO - Winamp started successfully
+2024-02-28 23:07:56,532 - root - INFO - Loading local livestream...
+2024-02-28 23:07:56,541 - root - INFO - Broadcasting started.
+2024-02-28 23:08:04,790 - root - DEBUG - feature not complete.
+2024-02-28 23:08:07,198 - root - DEBUG - feature not complete.
+2024-02-28 23:08:08,138 - root - DEBUG - feature not complete.
+2024-02-28 23:08:08,965 - root - DEBUG - feature not complete.
+2024-02-28 23:08:09,773 - root - DEBUG - feature not complete.
+2024-02-28 23:08:10,565 - root - DEBUG - feature not complete.
+2024-02-28 23:08:11,870 - root - DEBUG - feature not complete.
+2024-02-28 23:08:14,365 - root - DEBUG - feature not complete.
+2024-02-28 23:08:27,246 - root - DEBUG - feature not complete.
+2024-02-28 23:08:27,246 - root - INFO - Stopping Icecast via NSSM service...
+2024-02-28 23:08:27,259 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:08:27,399 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:08:27,400 - root - INFO - Winamp stopped successfully
+2024-02-28 23:08:27,401 - root - INFO - All broadcasting services are stopped.
+2024-02-28 23:08:27,402 - root - INFO - Broadcast duration was 0:00:30.859990.
+2024-02-28 23:10:23,014 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:10:23,028 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:10:23,029 - root - INFO - Getting DJ Name...
+2024-02-28 23:10:24,018 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:10:24,020 - root - INFO - Winamp started successfully
+2024-02-28 23:10:24,021 - root - INFO - Loading local livestream...
+2024-02-28 23:10:24,031 - root - INFO - Broadcasting started.
+2024-02-28 23:23:34,302 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-28 23:25:05,654 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:25:05,669 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:25:05,671 - root - INFO - Getting DJ Name...
+2024-02-28 23:25:06,667 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:25:06,669 - root - INFO - Winamp started successfully
+2024-02-28 23:25:06,670 - root - INFO - Loading local livestream...
+2024-02-28 23:25:06,685 - root - INFO - Broadcasting started.
+2024-02-28 23:26:09,749 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:26:09,762 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:26:09,764 - root - INFO - Getting DJ Name...
+2024-02-28 23:26:11,554 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:26:11,555 - root - INFO - Winamp started successfully
+2024-02-28 23:26:11,557 - root - INFO - Loading local livestream...
+2024-02-28 23:26:11,566 - root - INFO - Broadcasting started.
+2024-02-28 23:26:24,493 - root - DEBUG - feature not complete.
+2024-02-28 23:26:24,494 - root - INFO - Stopping Icecast via NSSM service...
+2024-02-28 23:26:24,507 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:26:24,652 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:26:24,654 - root - INFO - Winamp stopped successfully
+2024-02-28 23:26:24,656 - root - INFO - All broadcasting services are stopped.
+2024-02-28 23:26:24,657 - root - INFO - Broadcast duration was 0:00:13.089951.
+2024-02-28 23:31:01,510 - root - INFO - Starting Escape Pod Tool Kit version 0.1.0
+2024-02-28 23:31:13,750 - root - INFO - Starting Icecast via NSSM service...
+2024-02-28 23:31:13,763 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:31:13,765 - root - INFO - Getting DJ Name...
+2024-02-28 23:31:14,594 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:31:14,595 - root - INFO - Winamp started successfully
+2024-02-28 23:31:14,596 - root - INFO - Loading local livestream...
+2024-02-28 23:31:14,606 - root - INFO - Broadcasting started.
+2024-02-28 23:31:20,958 - root - DEBUG - feature not complete.
+2024-02-28 23:31:20,959 - root - INFO - Stopping Icecast via NSSM service...
+2024-02-28 23:31:20,975 - root - DEBUG - Failed to start service Icecast: Can't open service!
+OpenService(): Access is denied.
+
+
+2024-02-28 23:31:21,119 - root - DEBUG - No window with name 'EscapePodToolkit' found.
+2024-02-28 23:31:21,120 - root - INFO - Winamp stopped successfully
+2024-02-28 23:31:21,121 - root - INFO - All broadcasting services are stopped.
+2024-02-28 23:31:21,122 - root - INFO - Broadcast duration was 0:00:06.514633.

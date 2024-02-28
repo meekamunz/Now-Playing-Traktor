@@ -1,5 +1,5 @@
 from urllib.request import urlretrieve, urlopen
-from functions import remoteFileList, wait, sleep, makeDir, focus
+from functions import remoteFileList, wait, sleep, makeDir, focus, kill_process
 import os, ssl, subprocess, pickletools, logger_config
 
 # Logging Configuration
@@ -43,6 +43,20 @@ def start_winamp():
     try:
         subprocess.Popen(command)
         focus('EscapePodToolkit')
+        logging.info('Winamp started successfully')
         return 'Winamp started successfully.'
     except FileNotFoundError:
+        logging.debug('Winamp failed to start.')
         return 'ERROR: Failed to start Winamp.'
+    
+# stop winamp
+def stop_winamp():
+    winamp_process = "winamp.exe"
+    try:
+        kill_process(winamp_process)
+        focus('EscapePodToolkit')
+        logging.info('Winamp stopped successfully')
+        return 'Winamp stopped successfully.'
+    except FileNotFoundError:
+        logging.debug('Winamp failed to stop.')
+        return 'ERROR: Failed to stop Winamp.'

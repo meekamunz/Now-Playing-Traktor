@@ -62,13 +62,13 @@ def getIcecast(location):
                 urlretrieve(icecastVersions[icecastChoice-1], target)
                 versionLoop = False
             else:
-                logger.debug ('Invalid selection.  Please use a number in the list.')
+                logging.debug ('Invalid selection.  Please use a number in the list.')
                 sleep(1)
                 pass
             
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
-            logger.debug ('Invalid selection.  Please use a number in the list.')
+            logging.debug ('Invalid selection.  Please use a number in the list.')
             sleep(1)
             
     logging.info('Icecast download complete.')
@@ -122,4 +122,4 @@ def extract_dj_name_from_icecast(icecast_file):
             else:
                 logging.debug("Start or end tag not found in the file.")
     except FileNotFoundError:
-        logging.debug(f"File '{file_path}' not found.")
+        logging.debug(f"File '{icecast_file}' not found.")

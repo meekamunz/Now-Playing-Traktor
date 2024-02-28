@@ -1,16 +1,17 @@
+from ast import pattern
 import logging
 from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
-from winamp import getWinamp, start_winamp, getClever
+from winamp import getWinamp, start_winamp, getClever, stop_winamp
 from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 from traktorSettings import traktorMachine,  remoteTSI, localTSI
-from operateThePod import load_winamp_ogg, start_icecast
+from operateThePod import load_winamp_ogg, start_icecast, stop_icecast
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
-import os, sys, logger_config
+import os, sys, logger_config, datetime
 
 # Logging Configuration
 logger_config.configure_logging() 
@@ -25,11 +26,14 @@ root=tk.Tk()
 root.withdraw()
 
 # global variables
+# use variable 'path' as a location for the services
 path = os.path.expandvars('%userprofile%\\Documents\\Escape Pod Toolkit')
+global path
+broadcast_state={'state':'Unknown', 'duration': 'No broadcast yet'}
+global broadcast_state
 
 # main code
 def main():
-    global path
     focus('EscapePodToolkit')
     menuTitle = 'Main Menu'
     titleName = '| Escape Pod Toolkit |'
@@ -85,16 +89,15 @@ def main():
             print()
             sleep(1)
 
+
 # operate the pod
-def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_ten='Unknown'):
-    # use variable 'path' as a location for the services
-    global path
-    
+def operations(prevMenu, b_state='state', duration='duration', now_playing_state='Unknown', last_ten_state='Unknown'):
     # create menu for services
     menuTitle = 'Operations Menu'
     titleName = '| Escape Pod Toolkit |'
     title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
     ops_menu_loop = True
+    
     while ops_menu_loop:
         try:
             clear()
@@ -109,9 +112,11 @@ def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_
             print(' [.]')
             print(' [0] Exit Escape Pod Toolkit')
             print()
-            print(f'Broadcasting State: {broadcast_state}')
-            print(f'Now Playing Script State: {now_playing}')
-            print(f'Last 10 Tracks Script State: {last_ten}')
+            print(f'Broadcasting State: {broadcast_state[b_state]}')
+            if broadcast_state[b_state] == 'On Air': print(f'Broadcast: on-going')
+            else: print(f'Broadcast duration: {broadcast_state[duration]}')
+            print(f'Now Playing Script State: {now_playing_state}')
+            print(f'Last 10 Tracks Script State: {last_ten_state}')
             
             ops_menu_select = int(input('Select an option: '))
             if ops_menu_select == 1: start_broadcasting(path)
@@ -128,26 +133,49 @@ def operations(prevMenu, broadcast_state='Unknown', now_playing='Unknown', last_
             print()
             sleep(1)
             
+
 def start_broadcasting(path):
     # Start Icecast via NSSM
-    start_icecast(path, 'Icecast')
-
+    start_icecast(path)
+    
     # User to start streaming from Traktor
     extracted_dj_name = extract_dj_name_from_icecast('C:\Program Files (x86)\Icecast\icecast.xml')
     print(f'Hey {extracted_dj_name}, start streaming in Traktor now!')
     wait()
-
+    
     # start Winamp
     start_winamp()
-
+    
     # use CLEveR to load ogg.m3u into Winamp
     load_winamp_ogg(extracted_dj_name, path)
     
+    # set broadcasting_state
+    broadcast_state.update({'state':'On Air', 'started': datetime.datetime.now()})
+    logging.info('Broadcasting started.')
+    
+
 def stop_broadcasting(path):
-    #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
     logging.debug('feature not complete.')
+    
     # stop Icecast via nssm
+    stop_icecast(path)
+    
     # kill Winamp
+    stop_winamp()
+    
+    # calculate broadcast duration
+    duration = datetime.datetime.now() - broadcast_state['started']
+    
+    # set broadcasting_state
+    broadcast_state.update({'state':'Off Air', 'stopped': datetime.datetime.now(), 'duration': duration})
+    
+    # Tell user that services are stopped
+    logging.info('All broadcasting services are stopped.')
+    logging.info(f'Broadcast duration was {duration}.')
+
+
+
+    #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
     # now-playing,
     # last-10-tracks
 
