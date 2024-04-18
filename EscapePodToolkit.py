@@ -7,11 +7,11 @@ from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 from traktorSettings import traktorMachine,  remoteTSI, localTSI
-from operateThePod import load_winamp_ogg, start_icecast, stop_icecast
+from operateThePod import load_winamp_ogg, start_icecast, stop_icecast, last_10_tracks
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
-import os, sys, logger_config, datetime
+import os, sys, logger_config, datetime, keyboard
 
 # Logging Configuration
 logger_config.configure_logging() 
@@ -27,10 +27,10 @@ root.withdraw()
 
 # global variables
 # use variable 'path' as a location for the services
-path = os.path.expandvars('%userprofile%\\Documents\\Escape Pod Toolkit')
 global path
-broadcast_state={'state':'Unknown', 'duration': 'No broadcast yet'}
 global broadcast_state
+path = os.path.expandvars('%userprofile%\\Documents\\Escape Pod Toolkit')
+broadcast_state={'state':'Unknown', 'duration': 'No broadcast yet'}
 
 # main code
 def main():
@@ -57,9 +57,7 @@ def main():
             if mainMenuSelect == 1:
                 setup(menuTitle)
                 
-            elif mainMenuSelect == 2:
-                #
-                pass
+            elif mainMenuSelect == 2: operations(menuTitle)
             
             elif mainMenuSelect == 3:
                 # remove services & apps
@@ -91,7 +89,7 @@ def main():
 
 
 # operate the pod
-def operations(prevMenu, b_state='state', duration='duration', now_playing_state='Unknown', last_ten_state='Unknown'):
+def operations(prevMenu, b_state='state', duration='duration', now_playing_state='Unknown', track_reader_state='Unknown'):
     # create menu for services
     menuTitle = 'Operations Menu'
     titleName = '| Escape Pod Toolkit |'
@@ -108,7 +106,7 @@ def operations(prevMenu, b_state='state', duration='duration', now_playing_state
             print(' [1] Start Broadcasting')
             print(' [2] Stop Broadcasting')
             print(' [3] Enable \'Now Playing\' Script')
-            print(' [4] Enable \'Last 10 Tracks\' Script')
+            print(' [4] Enable \'Track Reader\' feature')
             print(' [.]')
             print(' [0] Exit Escape Pod Toolkit')
             print()
@@ -116,13 +114,23 @@ def operations(prevMenu, b_state='state', duration='duration', now_playing_state
             if broadcast_state[b_state] == 'On Air': print(f'Broadcast: on-going')
             else: print(f'Broadcast duration: {broadcast_state[duration]}')
             print(f'Now Playing Script State: {now_playing_state}')
-            print(f'Last 10 Tracks Script State: {last_ten_state}')
+            print(f'Track Reader State: {track_reader_state}')
             
             ops_menu_select = int(input('Select an option: '))
             if ops_menu_select == 1: start_broadcasting(path)
             elif ops_menu_select == 2: stop_broadcasting(path)
             elif ops_menu_select == 3: logging.debug('feature not complete.')
-            elif ops_menu_select == 4: logging.debug('feature not complete.')
+            elif ops_menu_select == 4:
+                if track_reader_state != 'Running':
+                    #track_reader_thread.start()
+                    track_reader(track_reader_state)
+                    logging.debug('Track Reader feature started.')
+                    track_reader_state = 'Running'
+                else:
+                    #stop_track_reader_thread.set()
+                    #track_reader_thread.join()
+                    logging.debug('Track Reader feature stopped.')
+                    track_reader_state = 'Stopped'
             elif ops_menu_select == 0: logging.debug('feature not complete.')
             else: logging.debug('Error in OPs menu.')
                 
@@ -177,8 +185,22 @@ def stop_broadcasting(path):
 
 #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
 # now-playing,
-# last-10-tracks
 
+# Track Reader
+def track_reader(state):
+    track_reader_loop = True
+    while track_reader_loop:
+        if keyboard.is_pressed('q'):
+            track_reader_loop = False
+            break
+        else:
+            if state != 'Running':
+                last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
+                open(last_10_file_path, 'w').close()
+                last_10_tracks(os.path.join(path, 'Streaming Data\\now_playing.txt'), last_10_file_path)
+            else:
+                pass
+        pass
 
 # initial setup
 def setup(prevMenu):
@@ -220,6 +242,9 @@ def setup(prevMenu):
     amip = getAmip(path)
     installAmip(amip)
     amipConfig(os.path.join(path, 'Streaming Data'))
+    # add the last_10_tracks file:
+    last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
+    open(last_10_file_path, 'w').close()
 
     # Traktor Settings
     # Prompt user to close Traktor
@@ -275,4 +300,5 @@ if __name__ == '__main__':
     # get admin privileges
     if bootstrap() == True:
         logging.info('Admin privileges granted.')
+        # Main Code
         main()

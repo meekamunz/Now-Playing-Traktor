@@ -38,9 +38,13 @@ trackList = [''] * 11
 def new_track(now_playing, last_10_file):
     with open(now_playing, 'r') as trackFile:
         newTrack = trackFile.readline()
-        print('newTrack contender is: ' + newTrack)
-        if newTrack == trackList[0]:
-            print ('same track')
+        titleName = '| Escape Pod Track Reader |'
+        title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
+        print(title)
+        print()
+        print('Currently Playing: ' + newTrack)
+        print()
+        if newTrack == trackList[0]: pass
         else:
             trackCounter = 10
             tCounterLoop = True
@@ -78,17 +82,18 @@ def output_file(file):
             lastCounter = lastCounter - 1
             if lastCounter == 0: lastLoop = False
         lastTen.close()
-        
 
 # Track List function here
-def last_10_tracks(now_playing, last_10_tracks):
+def last_10_tracks(now_playing, last_10_tracks_file):
     last10loop = True
     while last10loop:
         clear()
-        new_track(now_playing, last_10_tracks)
-        list_file = open(last_10_tracks)
+        new_track(now_playing, last_10_tracks_file)
+        list_file = open(last_10_tracks_file)
         for line in list_file:
             print (line)
         list_file.close()
+        print()
+        print('Press \'q\' to exit Track Reader.')
         time.sleep(10)
         clear()
