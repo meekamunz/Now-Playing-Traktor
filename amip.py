@@ -39,16 +39,16 @@ def amipConfig(location):
     logging.info('Configuring AMIP.')
     with open ('C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'r') as file:
         filedata = file.read()
-
+        
     # Replace target parts
-    filedata = filedata.replace('CFG_SFILE=""', 'CFG_SFILE="C:\A\LOCATION\now_playing.txt')
     filedata = filedata.replace('CFG_SPLAY="  np: %name"', 'CFG_SPLAY="%name"')
     filedata = filedata.replace('CFG_SPAUSE="  np: %name [paused]"', 'CFG_SPAUSE="ERROR 1"')
     filedata = filedata.replace('CFG_SEXIT="  np: (Winamp is not active ;-)"', 'CFG_SEXIT=""')
     filedata = filedata.replace('CFG_UPDATEFILE=0', 'CFG_UPDATEFILE=1')
-    filedata = filedata.replace('CFG_SFILE=""', 'CFG_SFILE="'+location+'"')
-
+    logging.info(f'Setting Now Playing path to {location}.')
+    filedata = filedata.replace('CFG_SFILE=""', f'CFG_SFILE="{location}\now_playing.txt"')
+    
     # Write over the plugin.ini with new data
-    with open('C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'w') as file:
+    with open(r'C:\Program Files (x86)\Winamp\Plugins\plugin.ini', 'w') as file:
         file.write(filedata)
     logging.info('AMIP configured successfully.')

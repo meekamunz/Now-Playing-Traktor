@@ -175,9 +175,9 @@ def stop_broadcasting(path):
 
 
 
-    #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
-    # now-playing,
-    # last-10-tracks
+#HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
+# now-playing,
+# last-10-tracks
 
 
 # initial setup
@@ -219,7 +219,7 @@ def setup(prevMenu):
     # do AMIP stuff
     amip = getAmip(path)
     installAmip(amip)
-    amipConfig(path+'\\Streaming Data')
+    amipConfig(os.path.join(path, 'Streaming Data'))
 
     # Traktor Settings
     # Prompt user to close Traktor
