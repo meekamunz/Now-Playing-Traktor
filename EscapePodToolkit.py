@@ -1,4 +1,5 @@
 from ast import pattern
+from concurrent.futures import thread
 import logging
 from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
@@ -11,12 +12,11 @@ from operateThePod import load_winamp_ogg, start_icecast, stop_icecast, last_10_
 import tkinter as tk
 from time import sleep
 from tkinter.filedialog import askdirectory
-import os, sys, logger_config, datetime, keyboard
+import os, sys, logger_config, datetime, threading
 
 # Logging Configuration
 logger_config.configure_logging() 
-
-#import logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s', force=True)
 
 # Application version
 __version__ = '0.1.0'
@@ -29,12 +29,13 @@ root.withdraw()
 # use variable 'path' as a location for the services
 global path
 global broadcast_state
+global track_reader_state
 path = os.path.expandvars('%userprofile%\\Documents\\Escape Pod Toolkit')
 broadcast_state={'state':'Unknown', 'duration': 'No broadcast yet'}
+track_reader_state='Unknown'
 
 # main code
 def main():
-    focus('EscapePodToolkit')
     menuTitle = 'Main Menu'
     titleName = '| Escape Pod Toolkit |'
     title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
@@ -57,7 +58,7 @@ def main():
             if mainMenuSelect == 1:
                 setup(menuTitle)
                 
-            elif mainMenuSelect == 2: operations(menuTitle)
+            elif mainMenuSelect == 2: operations()
             
             elif mainMenuSelect == 3:
                 # remove services & apps
@@ -89,7 +90,7 @@ def main():
 
 
 # operate the pod
-def operations(prevMenu, b_state='state', duration='duration', now_playing_state='Unknown', track_reader_state='Unknown'):
+def operations(b_state='state', duration='duration', track_reader_state='Unknown'):
     # create menu for services
     menuTitle = 'Operations Menu'
     titleName = '| Escape Pod Toolkit |'
@@ -105,33 +106,30 @@ def operations(prevMenu, b_state='state', duration='duration', now_playing_state
             print()
             print(' [1] Start Broadcasting')
             print(' [2] Stop Broadcasting')
-            print(' [3] Enable \'Now Playing\' Script')
-            print(' [4] Enable \'Track Reader\' feature')
+            if track_reader_state != 'Running': print(' [3] Enable Track Reader')
+            if track_reader_state == 'Running': print(' [3] Disable Track Reader')
             print(' [.]')
-            print(' [0] Exit Escape Pod Toolkit')
+            print(' [0] Back')
             print()
             print(f'Broadcasting State: {broadcast_state[b_state]}')
             if broadcast_state[b_state] == 'On Air': print(f'Broadcast: on-going')
             else: print(f'Broadcast duration: {broadcast_state[duration]}')
-            print(f'Now Playing Script State: {now_playing_state}')
             print(f'Track Reader State: {track_reader_state}')
             
             ops_menu_select = int(input('Select an option: '))
             if ops_menu_select == 1: start_broadcasting(path)
             elif ops_menu_select == 2: stop_broadcasting(path)
-            elif ops_menu_select == 3: logging.debug('feature not complete.')
-            elif ops_menu_select == 4:
+            elif ops_menu_select == 3:
                 if track_reader_state != 'Running':
-                    #track_reader_thread.start()
-                    track_reader(track_reader_state)
-                    logging.debug('Track Reader feature started.')
+                    track_thread.start()
                     track_reader_state = 'Running'
+                    logging.info('Track Reader feature started.')
                 else:
-                    #stop_track_reader_thread.set()
-                    #track_reader_thread.join()
-                    logging.debug('Track Reader feature stopped.')
+                    stop_event.set()
                     track_reader_state = 'Stopped'
-            elif ops_menu_select == 0: logging.debug('feature not complete.')
+                    logging.debug('Track Reader feature stopped by menu.')
+            elif ops_menu_select == 0:
+                main()
             else: logging.debug('Error in OPs menu.')
                 
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
@@ -184,23 +182,21 @@ def stop_broadcasting(path):
 
 
 #HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
-# now-playing,
+
 
 # Track Reader
-def track_reader(state):
-    track_reader_loop = True
-    while track_reader_loop:
-        if keyboard.is_pressed('q'):
-            track_reader_loop = False
-            break
-        else:
-            if state != 'Running':
-                last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
-                open(last_10_file_path, 'w').close()
-                last_10_tracks(os.path.join(path, 'Streaming Data\\now_playing.txt'), last_10_file_path)
-            else:
-                pass
-        pass
+def track_reader(track_reader_state, stop_event):
+    logging.info(f'Track Reader State: {track_reader_state}')
+    last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
+    if track_reader_state == 'Unknown': 
+        open(last_10_file_path, 'w').close()
+    last_10_tracks(os.path.join(path, 'Streaming Data\\now_playing.txt'), last_10_file_path, stop_event)
+    stop_event.set()  # Move this line after last_10_tracks
+    logging.info('Track Reader feature stopped by exit.')
+
+# Track Reader Threading
+stop_event = threading.Event()
+track_thread = threading.Thread(target=track_reader, args=(track_reader_state, stop_event,))
 
 # initial setup
 def setup(prevMenu):
@@ -301,4 +297,5 @@ if __name__ == '__main__':
     if bootstrap() == True:
         logging.info('Admin privileges granted.')
         # Main Code
+        focus('EscapePodToolkit')
         main()

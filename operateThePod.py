@@ -1,6 +1,6 @@
 from nssm import nssm_start, nssm_stop
 from functions import clear
-import os, logger_config, sys, time, datetime
+import os, logger_config, sys, time, datetime, keyboard
 from datetime import date
 
 # Logging Configuration
@@ -84,16 +84,18 @@ def output_file(file):
         lastTen.close()
 
 # Track List function here
-def last_10_tracks(now_playing, last_10_tracks_file):
+def last_10_tracks(now_playing, last_10_tracks_file, stop_event):
     last10loop = True
-    while last10loop:
-        clear()
-        new_track(now_playing, last_10_tracks_file)
-        list_file = open(last_10_tracks_file)
-        for line in list_file:
-            print (line)
-        list_file.close()
-        print()
-        print('Press \'q\' to exit Track Reader.')
-        time.sleep(10)
-        clear()
+    while last10loop and not stop_event.is_set():
+        if keyboard.is_pressed('q') or stop_event.is_set():
+            last10loop = False
+        else:
+            clear()  # Assuming clear is defined
+            new_track(now_playing, last_10_tracks_file)  # Assuming new_track is defined
+            with open(last_10_tracks_file) as list_file:
+                for line in list_file:
+                    print(line)
+            print()
+            print('Press \'q\' to view Main Menu.')
+            time.sleep(10)
+            clear()
