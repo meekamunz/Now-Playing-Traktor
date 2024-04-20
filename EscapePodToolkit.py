@@ -237,7 +237,6 @@ def setup(prevMenu):
     # do AMIP stuff
     amip = getAmip(path)
     installAmip(amip)
-    # Check AMIP installed
     amipConfig(os.path.join(path, 'Streaming Data'))
     # add the last_10_tracks file:
     last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')

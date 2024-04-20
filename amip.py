@@ -1,5 +1,5 @@
 from urllib.request import urlretrieve
-from functions import wait, sleep, makeDir, focus, guiInstaller
+from functions import wait, sleep, makeDir, focus, guiInstaller, guiInstaller_pattern
 import os, zipfile, logger_config
 
 # Logging Configuration
@@ -34,8 +34,7 @@ def installAmip(amipZip):
     logging.info('Extracted AMIP.')
 
     # This doesn't actually install it!!!  Need to run installer!
-    # will this work?
-    guiInstaller(f'{targetDir}\*.exe')
+    guiInstaller_pattern(f'{targetDir}\AMIP*.exe')
 
 # amip file configurator
 def amipConfig(location):

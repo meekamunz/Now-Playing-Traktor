@@ -1,5 +1,5 @@
 import msvcrt as m
-import os, requests, subprocess, re, ctypes, enum, sys, socket, psutil, logger_config
+import os, requests, subprocess, re, ctypes, enum, sys, socket, psutil, logger_config, glob
 import pygetwindow as gw
 from time import sleep
 from bs4 import BeautifulSoup
@@ -149,6 +149,21 @@ def guiInstaller(file):
         logging.debug(f'Error installing {file}...')
         wait()
     else: logging.info(f'{file} installed.')
+
+def guiInstaller_pattern(file_pattern):
+    logging.info(f'Installing files matching pattern "{file_pattern}", please follow on-screen instructions...')
+    files = glob.glob(file_pattern)
+    if not files:
+        logging.debug(f'No files found matching pattern "{file_pattern}"')
+        return
+    for file in files:
+        logging.info(f'Installing {file}...')
+        p = subprocess.run([file], shell=True)
+        if p.returncode != 0:
+            logging.debug(f'Error installing {file}...')
+            wait()
+        else:
+            logging.info(f'{file} installed.')
 
 # switch Windows focus
 def focus(windowName=None):
