@@ -16,7 +16,7 @@ import os, sys, logger_config, datetime, threading
 
 # Logging Configuration
 logger_config.configure_logging() 
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s', force=True)
+#logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s', force=True)
 
 # Application version
 __version__ = '0.1.0'
@@ -128,6 +128,7 @@ def operations(b_state='state', duration='duration', track_reader_state='Unknown
                     stop_event.set()
                     track_reader_state = 'Stopped'
                     logging.debug('Track Reader feature stopped by menu.')
+                    stop_event.clear()
             elif ops_menu_select == 0:
                 main()
             else: logging.debug('Error in OPs menu.')
