@@ -219,22 +219,22 @@ def setup(prevMenu):
     
     # need to configure ICECAST
     icecastPassword=icecastXml(djName())
-
+    
     # download nssm-2.24
     nssm = getNssm(path)
     # install nssm-2.24
     installNssm(nssm)
     # setup Icecast as a service using nssm
     nssmService(path, 'Icecast')
-
+    
     # need to get winamp
     winamp = getWinamp(path)
     # need to install winamp
     guiInstaller(winamp)
-
+    
     # need to get CLEveR (CommandLine EVEnt Renderer for WinAmp)
     getClever(path)
-
+    
     # do AMIP stuff
     amip = getAmip(path)
     installAmip(amip)
@@ -242,7 +242,7 @@ def setup(prevMenu):
     # add the last_10_tracks file:
     last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
     open(last_10_file_path, 'w').close()
-
+    
     # Traktor Settings
     # Prompt user to close Traktor
     traktor_application_check = True
@@ -251,7 +251,7 @@ def setup(prevMenu):
             print('Please close your Traktor application.')
             wait()
         else: traktor_application_check = False
-
+        
     # assume icecast is running on local host
     # select IP address that icecast is running on
     if get_local_ip_addresses:
@@ -259,7 +259,7 @@ def setup(prevMenu):
         icecast_ip = prompt_select_ip(get_local_ip_addresses())
     else:
         logging.debug('ERROR: No local IP addresses found.')
-
+        
     TSI_data=[icecastPassword[1], icecast_ip, icecastPassword[0]]
     TSI_updated = False, 'never set'
     TSI_check = True

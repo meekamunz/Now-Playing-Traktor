@@ -11,7 +11,7 @@ def getAmip(location):
     # create a sub folder to location
     path = os.path.join(location, 'AMIP')
     makeDir(path)
-
+    
     # Use this version only!!!
     logging.info('Downloading AMIP...')
     
@@ -32,7 +32,7 @@ def installAmip(amipZip):
     with zipfile.ZipFile(amipZip, 'r') as zip_ref:
         zip_ref.extractall(targetDir)
     logging.info('Extracted AMIP.')
-
+    
     # This doesn't actually install it!!!  Need to run installer!
     guiInstaller_pattern(f'{targetDir}\AMIP*.exe')
 

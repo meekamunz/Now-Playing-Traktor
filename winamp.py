@@ -15,7 +15,7 @@ def getWinamp(location):
     
     url = 'https://download.winamp.com/winamp/winamp_latest_full.exe'
     target = os.path.join(path, 'winamp_latest_full.exe')
-
+    
     logging.info('Downloading Winamp...')
     urlretrieve(url, target)
     logging.info('Winamp downloaded.')

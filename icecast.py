@@ -82,7 +82,7 @@ def icecastXml(djName, password='escapepod'):
     # Read in the XML
     with open ('C:\Program Files (x86)\Icecast\icecast.xml', 'r') as file:
         filedata = file.read()
-
+        
     # Replace target parts
     # does this work without wilcard for values - might need to use re.sub (as per traktorSettings.py)
     filedata = filedata.replace('<source-password>hackme</source-password>', f'<source-password>{icecastPassword}</source-password>')
@@ -90,7 +90,7 @@ def icecastXml(djName, password='escapepod'):
     filedata = filedata.replace('<admin-password>hackme</admin-password>', f'<admin-password>{icecastPassword}</admin-password>')
     filedata = filedata.replace('<location>Earth</location>', f'<location>{djName}</location>')
     filedata = filedata.replace('<admin>icemaster@localhost</admin>', '<admin>the.escape.bot@gmail.com</admin>')
-
+    
     # Write over the XML with new data
     with open('C:\Program Files (x86)\Icecast\icecast.xml', 'w') as file:
         file.write(filedata)
