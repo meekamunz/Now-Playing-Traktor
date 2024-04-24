@@ -19,7 +19,7 @@ logger_config.configure_logging()
 #logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s', force=True)
 
 # Application version
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 # hide the tk root window
 root=tk.Tk()
@@ -197,6 +197,9 @@ def track_reader(track_reader_state, stop_event):
     last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
     if track_reader_state == 'Unknown': 
         open(last_10_file_path, 'w').close()
+    # NEED TO ADD:
+    # track_reader_state == 'Stopped':
+    # do some restart without deleting the current last_10_tracks file
     last_10_tracks(os.path.join(path, 'Streaming Data\\now_playing.txt'), last_10_file_path, stop_event, __version__)
     stop_event.set()  # Move this line after last_10_tracks
     logging.info('Track Reader feature stopped by exit.')
