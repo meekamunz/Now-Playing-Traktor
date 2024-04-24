@@ -190,7 +190,6 @@ def stop_broadcasting(path):
     logging.info(f'Broadcast duration was {duration}.')
 
 
-
 # Track Reader
 def track_reader(track_reader_state, stop_event):
     logging.info(f'Track Reader State: {track_reader_state}')
@@ -297,10 +296,6 @@ def setup(prevMenu):
                 print('6. Once complete, copy the file back to the original PC, replacing the original file.')
                 print()
         TSI_check = not TSI_updated[0]
-
-    #TODO
-    # continue working on streaming services - need to add a 'kill application' command that partially matches a name (winamp can append the track to the process name)
-
 
 if __name__ == '__main__':
     logging.info(f'Starting Escape Pod Tool Kit version {__version__}')
