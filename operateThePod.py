@@ -35,10 +35,10 @@ today = str(date.today())
 trackList = [''] * 11
 
 # open the current track
-def new_track(now_playing, last_10_file):
+def new_track(now_playing, last_10_file, version):
     with open(now_playing, 'r') as trackFile:
         newTrack = trackFile.readline()
-        titleName = '| Escape Pod Track Reader |'
+        titleName = f'| Escape Pod Toolkit v{version} - Track Reader |'
         title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
         print(title)
         print()
@@ -84,14 +84,14 @@ def output_file(file):
         lastTen.close()
 
 # Track List function here
-def last_10_tracks(now_playing, last_10_tracks_file, stop_event):
+def last_10_tracks(now_playing, last_10_tracks_file, stop_event, version):
     last10loop = True
     while last10loop and not stop_event.is_set():
         if keyboard.is_pressed('q') or stop_event.is_set():
             last10loop = False
         else:
             clear()  # Assuming clear is defined
-            new_track(now_playing, last_10_tracks_file)  # Assuming new_track is defined
+            new_track(now_playing, last_10_tracks_file, version)  # Assuming new_track is defined
             with open(last_10_tracks_file) as list_file:
                 for line in list_file:
                     print(line)

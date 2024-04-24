@@ -37,7 +37,7 @@ track_reader_state='Unknown'
 # main code
 def main():
     menuTitle = 'Main Menu'
-    titleName = '| Escape Pod Toolkit |'
+    titleName = f'| Escape Pod Toolkit v{__version__} - Main Menu |'
     title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
     menuLoop = True
     while menuLoop:
@@ -49,7 +49,8 @@ def main():
             print()
             print(' [1] Setup Escape Pod Toolkit')
             print(' [2] Operate Escape Pod Toolkit')
-            print(' [3] Remove Escape Pod Toolkit')
+            print(' [.]')
+            print(' [9] Remove Escape Pod Toolkit')
             print(' [.]')
             print(' [0] Exit Escape Pod Toolkit')
             print()
@@ -60,7 +61,7 @@ def main():
                 
             elif mainMenuSelect == 2: operations()
             
-            elif mainMenuSelect == 3:
+            elif mainMenuSelect == 9:
                 # remove services & apps
                 if removeIcecast(path) == True:
                     if removeNssm(path) == True:
@@ -92,7 +93,7 @@ def operations(b_state='state', duration='duration', track_reader_state='Unknown
     global track_reader_thread, stop_event, track_reader_running
     # create menu for services
     menuTitle = 'Operations Menu'
-    titleName = '| Escape Pod Toolkit |'
+    titleName = f'| Escape Pod Toolkit v{__version__} - Operations Menu |'
     title = len(titleName)*'-'+'\n'+titleName+'\n'+len(titleName)*'-'
     ops_menu_loop = True
     
@@ -196,7 +197,7 @@ def track_reader(track_reader_state, stop_event):
     last_10_file_path = os.path.join(path, 'Streaming Data\last_10_tracks.txt')
     if track_reader_state == 'Unknown': 
         open(last_10_file_path, 'w').close()
-    last_10_tracks(os.path.join(path, 'Streaming Data\\now_playing.txt'), last_10_file_path, stop_event)
+    last_10_tracks(os.path.join(path, 'Streaming Data\\now_playing.txt'), last_10_file_path, stop_event, __version__)
     stop_event.set()  # Move this line after last_10_tracks
     logging.info('Track Reader feature stopped by exit.')
 
