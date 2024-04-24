@@ -79,8 +79,6 @@ def main():
                 logging.info('Exiting Escape Pod Tool Kit.')
                 sys.exit()
                 
-                
-                
         except (IndexError, ValueError) as e: # input error handling, can print(e) if required
             print()
             print ('Invalid selection.  Please use a number in the list.')
@@ -91,6 +89,7 @@ def main():
 
 # operate the pod
 def operations(b_state='state', duration='duration', track_reader_state='Unknown'):
+    global track_reader_thread, stop_event, track_reader_running
     # create menu for services
     menuTitle = 'Operations Menu'
     titleName = '| Escape Pod Toolkit |'
@@ -116,19 +115,29 @@ def operations(b_state='state', duration='duration', track_reader_state='Unknown
             else: print(f'Broadcast duration: {broadcast_state[duration]}')
             print(f'Track Reader State: {track_reader_state}')
             
-            ops_menu_select = int(input('Select an option: '))
+            # Accept a number or 'q' to quit
+            ops_menu_select = input('Select an option: ').strip().lower()
+            if ops_menu_select.isdigit():
+                ops_menu_select = int(ops_menu_select)  # Convert to int if it's a digit
+            if ops_menu_select == 'q':
+                pass
+            
+            # Process the operations menu
             if ops_menu_select == 1: start_broadcasting(path)
             elif ops_menu_select == 2: stop_broadcasting(path)
             elif ops_menu_select == 3:
-                if track_reader_state != 'Running':
-                    track_thread.start()
+                if not track_reader_running:  # If the track reader isn't running, start it
+                    track_reader_thread, stop_event = create_track_reader_thread()
+                    track_reader_thread.start()
+                    track_reader_running = True  # Update the running flag
                     track_reader_state = 'Running'
                     logging.info('Track Reader feature started.')
-                else:
-                    stop_event.set()
+                else:  # If the track reader is running, stop it
+                    stop_event.set()  # Signal to stop
+                    track_reader_thread.join()  # Ensure the thread has stopped
+                    track_reader_running = False  # Update the running flag
                     track_reader_state = 'Stopped'
                     logging.debug('Track Reader feature stopped by menu.')
-                    stop_event.clear()
             elif ops_menu_select == 0:
                 main()
             else: logging.debug('Error in OPs menu.')
@@ -182,9 +191,6 @@ def stop_broadcasting(path):
 
 
 
-#HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE 
-
-
 # Track Reader
 def track_reader(track_reader_state, stop_event):
     logging.info(f'Track Reader State: {track_reader_state}')
@@ -196,16 +202,21 @@ def track_reader(track_reader_state, stop_event):
     logging.info('Track Reader feature stopped by exit.')
 
 # Track Reader Threading
-stop_event = threading.Event()
-track_thread = threading.Thread(target=track_reader, args=(track_reader_state, stop_event,))
+# Initialize the stop_event and track_thread inside a function to allow for new instances
+def create_track_reader_thread():
+    stop_event = threading.Event()  # You can reset the event flag each time
+    track_thread = threading.Thread(target=track_reader, args=(track_reader_state, stop_event))
+    return track_thread, stop_event
+
+# Global variables to manage the thread state
+track_reader_thread = None
+stop_event = None
+track_reader_running = False  # Use this to track whether the thread is running
+
 
 # initial setup
 def setup(prevMenu):
     global path
-    # not sure, maybe force a location? Yeah, do that!
-    # define a temp location
-    #print('Set an empty temporary directory...')
-    #tempLocation = askdirectory()
     
     # Forced location
     logging.info('Creating \'Escape Pod Toolkit\'...')
@@ -290,7 +301,6 @@ def setup(prevMenu):
     #TODO
     # continue working on streaming services - need to add a 'kill application' command that partially matches a name (winamp can append the track to the process name)
 
-    # create last ten tracks file - the trackname tool should be built in, and should create the files it needs during operation, and clean up at end of operation.
 
 if __name__ == '__main__':
     logging.info(f'Starting Escape Pod Tool Kit version {__version__}')
