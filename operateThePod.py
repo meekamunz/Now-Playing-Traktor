@@ -26,7 +26,7 @@ def stop_icecast(location):
 def load_winamp_ogg(dj_name, path):
     logging.info('Loading local livestream...')
     # CLEveR.exe loadplay mike13000.ogg.m3u
-    os.system(f'{path}/{dj_name}.ogg.m3u')
+    os.system(f'{path}\\{dj_name}.ogg.m3u')
    
 
 global today

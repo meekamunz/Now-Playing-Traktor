@@ -3,3 +3,4 @@ requests
 pygetwindow
 psutil
 keyboard
+pywin32

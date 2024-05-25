@@ -3,7 +3,7 @@ from concurrent.futures import thread
 import logging
 from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
-from winamp import getWinamp, start_winamp, getClever, stop_winamp
+from winamp import getWinamp, start_winamp, getClever, stop_winamp, winamp_mute
 from amip import getAmip, installAmip, amipConfig
 from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
@@ -166,6 +166,9 @@ def start_broadcasting(path):
     # use CLEveR to load ogg.m3u into Winamp
     load_winamp_ogg(extracted_dj_name, path)
     
+    # mute winamp
+    winamp_mute()
+    
     # set broadcasting_state
     broadcast_state.update({'state':'On Air', 'started': datetime.datetime.now()})
     logging.info('Broadcasting started.')
@@ -230,9 +233,10 @@ def setup(prevMenu):
     icecast = getIcecast(path)
     # install ICECAST
     guiInstaller(icecast)
-    
+    # get DJ Name
+    dj_name = djName()
     # need to configure ICECAST
-    icecastPassword=icecastXml(djName())
+    icecastPassword=icecastXml(dj_name)
     
     # download nssm-2.24
     nssm = getNssm(path)
@@ -241,10 +245,15 @@ def setup(prevMenu):
     # setup Icecast as a service using nssm
     nssmService(path, 'Icecast')
     
-    # need to get winamp
+    # Get winamp
     winamp = getWinamp(path)
-    # need to install winamp
+    # Install winamp
     guiInstaller(winamp)
+    # Create playist file with DJ's name
+    with open(f'{path}\\{dj_name}.ogg.m3u', 'w') as playlist_file:
+        print(f'http://127.0.0.1:8000/{dj_name}.ogg')
+        playlist_file.close()
+    
     
     # need to get CLEveR (CommandLine EVEnt Renderer for WinAmp)
     getClever(path)

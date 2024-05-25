@@ -1,6 +1,7 @@
+#from calendar import c
 from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus, kill_process
-import os, ssl, subprocess, pickletools, logger_config
+import os, ssl, subprocess, pickletools, logger_config win32gui, win32api, win32con
 
 # Logging Configuration
 logger_config.configure_logging() 
@@ -60,3 +61,20 @@ def stop_winamp():
     except FileNotFoundError:
         logging.debug('Winamp failed to stop.')
         return 'ERROR: Failed to stop Winamp.'
+    
+# Send Winamp command
+def send_winamp_command(command):
+    win32api.SendMessage(winamp_window, WM_COMMAND, command, 0)
+
+WINAMP_VOLUME_DOWN = 40059
+
+# winamp_mute
+def winamp_mute():
+    # check winamp is running
+    winamp_window = win32gui.FindWindow("Winamp v1.x", None)
+    if winamp_window == 0:
+        logging.debug('Winamp not running.')
+    else:
+        logging.info('Winamp is running.')
+    for _ in range(100):  # Adjust as necessary
+        send_winamp_command(WINAMP_VOLUME_DOWN)
