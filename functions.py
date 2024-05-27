@@ -167,24 +167,42 @@ def guiInstaller_pattern(file_pattern):
 
 # switch Windows focus
 def focus(windowName=None):
-    if windowName:
-        titles = gw.getAllTitles()
-        search = re.compile('.*' + windowName + '.*')
-        match = [string for string in titles if re.match(search, string)]
-        if match:
-            window = gw.getWindowsWithTitle(match[0])[0]
-            # pygetwindow activate the handle is invalid
-            window.minimize()
-            window.restore()
+    try:
+        if windowName:
+            titles = gw.getAllTitles()
+            search = re.compile('.*' + windowName + '.*')
+            match = [string for string in titles if re.match(search, string)]
+            if match:
+                window = gw.getWindowsWithTitle(match[0])[0]
+                # pygetwindow activate the handle is invalid
+                try:
+                    window.minimize()
+                    window.restore()
+                    logging.info(f'Successfully focused on window: {windowName}')
+                except Exception as e:
+                    logging.error(f'Error minimizing/restoring window: {e}')
+            else:
+                logging.debug(f"No window with name '{windowName}' found.")
         else:
-            logging.debug(f"No window with name '{windowName}' found.")
-    else:
-        active_window = gw.getActiveWindow()
-        if active_window:
-            active_window.minimize()
-            active_window.restore()
-        else:
-            logging.debug("No active window found.")
+            active_window = gw.getActiveWindow()
+            if active_window:
+                try:
+                    active_window.minimize()
+                    active_window.restore()
+                    logging.info('Successfully focused on active window.')
+                except Exception as e:
+                    logging.error(f'Error minimizing/restoring active window: {e}')
+            else:
+                logging.debug("No active window found.")
+    except Exception as e:
+        logging.error(f'Error in focus function: {e}')
+
+
+# Create m3u DJ Name file:
+def dj_name_playlist(path, name):
+    with open(f'{path}\\{name}.ogg.m3u', 'w') as playlist_file:
+        print(f'http://127.0.0.1:8000/{name}.ogg')
+        playlist_file.close()
 
 # bootstrap for admin privileges
 SW_SHOWNORMAL = 1

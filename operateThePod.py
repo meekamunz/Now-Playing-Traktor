@@ -19,13 +19,14 @@ def start_icecast(location):
 # why is this called from the EscapePodToolKit only to call another method?
 def stop_icecast(location):
     logging.info('Stopping Icecast via NSSM service...')
-    nssm_start(location, 'Icecast')
+    nssm_stop(location, 'Icecast')
 
 
 # use CLEveR to load ogg.m3u into Winamp
 def load_winamp_ogg(dj_name, path):
     logging.info('Loading local livestream...')
     # CLEveR.exe loadplay mike13000.ogg.m3u
+    logging.info(f'Loading: {path}\\{dj_name}.ogg.m3u')
     os.system(f'{path}\\{dj_name}.ogg.m3u')
    
 

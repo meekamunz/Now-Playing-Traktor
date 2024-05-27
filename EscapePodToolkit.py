@@ -5,7 +5,7 @@ from icecast import getIcecast, icecastXml, extract_dj_name_from_icecast
 from nssm import getNssm, installNssm, nssmService
 from winamp import getWinamp, start_winamp, getClever, stop_winamp, winamp_mute
 from amip import getAmip, installAmip, amipConfig
-from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running
+from functions import wait, makeDir, guiInstaller, focus, bootstrap, clear, djName, get_local_ip_addresses, prompt_select_ip, is_application_running, dj_name_playlist
 from cleanup import removeIcecast, removeNssm, cleanupEPTroot, removeWinamp, removeAmip
 from traktorSettings import traktorMachine,  remoteTSI, localTSI
 from operateThePod import load_winamp_ogg, start_icecast, stop_icecast, last_10_tracks
@@ -19,7 +19,7 @@ logger_config.configure_logging()
 #logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s', force=True)
 
 # Application version
-__version__ = '0.3.1'
+__version__ = '0.3.6'
 
 # hide the tk root window
 root=tk.Tk()
@@ -163,6 +163,13 @@ def start_broadcasting(path):
     # start Winamp
     start_winamp()
     
+    # check m3u exists and create if it does not
+    file_path = f'{path}\{extracted_dj_name}.ogg.m3u'
+    if os.path.exists(file_path):
+        logging.info(f'{file_path} exists')
+    else:
+        dj_name_playlist(path, dj_name)
+    
     # use CLEveR to load ogg.m3u into Winamp
     load_winamp_ogg(extracted_dj_name, path)
     
@@ -250,10 +257,7 @@ def setup(prevMenu):
     # Install winamp
     guiInstaller(winamp)
     # Create playist file with DJ's name
-    with open(f'{path}\\{dj_name}.ogg.m3u', 'w') as playlist_file:
-        print(f'http://127.0.0.1:8000/{dj_name}.ogg')
-        playlist_file.close()
-    
+    dj_name_playlist(path, dj_name)    
     
     # need to get CLEveR (CommandLine EVEnt Renderer for WinAmp)
     getClever(path)

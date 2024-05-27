@@ -40,15 +40,25 @@ def getClever(location):
 # start winamp
 def start_winamp():
     winamp_path = 'C:\\Program Files (x86)\\Winamp\\winamp.exe'
+    if not os.path.exists(winamp_path):
+        logging.error('Winamp executable not found.')
+        return 'ERROR: Winamp executable not found.'
+    
     command = [winamp_path]
     try:
-        subprocess.Popen(command)
+        process = subprocess.Popen(command)
+        logging.info('Winamp started successfully.')
+        
+        # Wait briefly to ensure Winamp starts properly
+        sleep(2)
+        
+        # Focus on the EscapePodToolkit window (ensure this function is correctly implemented)
         focus('EscapePodToolkit')
-        logging.info('Winamp started successfully')
+        
         return 'Winamp started successfully.'
-    except FileNotFoundError:
-        logging.debug('Winamp failed to start.')
-        return 'ERROR: Failed to start Winamp.'
+    except Exception as e:
+        logging.error(f'Failed to start Winamp: {e}')
+        return f'ERROR: Failed to start Winamp: {e}'
     
 # stop winamp
 def stop_winamp():
