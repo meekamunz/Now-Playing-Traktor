@@ -1,10 +1,10 @@
 #from calendar import c
 from urllib.request import urlretrieve, urlopen
 from functions import remoteFileList, wait, sleep, makeDir, focus, kill_process
-import os, ssl, subprocess, pickletools, logger_config win32gui, win32api, win32con
+import os, ssl, subprocess, pickletools, logger_config, win32gui, win32api, win32con
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging 
 

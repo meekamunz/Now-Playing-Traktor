@@ -3,7 +3,7 @@ from functions import remoteFileList, wait, sleep, makeDir, focus
 import os, ssl, logger_config
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging 
 

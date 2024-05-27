@@ -2,7 +2,7 @@ from functions import focus, wait, sleep
 import os, subprocess, logger_config
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging 
 

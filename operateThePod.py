@@ -4,7 +4,7 @@ import os, logger_config, sys, time, datetime, keyboard
 from datetime import date
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging
 

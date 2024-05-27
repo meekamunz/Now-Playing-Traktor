@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import filedialog
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging
 

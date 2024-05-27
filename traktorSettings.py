@@ -2,7 +2,7 @@ from functions import yesNo, open_file_dialog
 import re, tempfile, os, logger_config
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging
 

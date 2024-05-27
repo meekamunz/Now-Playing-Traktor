@@ -3,7 +3,7 @@ from functions import wait, sleep, makeDir, focus, guiInstaller, guiInstaller_pa
 import os, zipfile, logger_config
 
 # Logging Configuration
-logger_config.configure_logging() 
+#logger_config.configure_logging() 
 
 import logging
 
