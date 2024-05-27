@@ -19,7 +19,7 @@ logger_config.configure_logging()
 #logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s', force=True)
 
 # Application version
-__version__ = '0.2.0'
+__version__ = '0.3.1'
 
 # hide the tk root window
 root=tk.Tk()
